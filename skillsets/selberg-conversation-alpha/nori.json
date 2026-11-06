@@ -1,0 +1,6 @@
+{
+  "name": "selberg-conversation-alpha",
+  "version": "0.1.0",
+  "type": "skillset",
+  "description": "Experimental (alpha): in Slack, attach a labelled spoken audio clip (ElevenLabs) for every question the agent asks, each restated with up to five sentences of context written for listening. Inert without ELEVENLABS_API_KEY and SELBERG_CONVERSATION_MODE=on."
+}

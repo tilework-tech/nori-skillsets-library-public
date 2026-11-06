@@ -23,6 +23,15 @@ then publishes the same folder here with the version v1 just assigned. Shared sk
 depends on, such as `creating-skills`, are fetched from the v1 registry and included in the
 skillset's own `skills/`. Release tags (`skillsets/<name>@<version>`) are never moved or deleted.
 
+## Added by hand
+
+These skillsets are not published by CI. Each was added by pull request and released by its own tag.
+
+| Skillset | Notes |
+|---|---|
+| `high-autonomy` | Converted from v1 `public/high-autonomy` 2.0.11 |
+| `selberg-conversation-alpha` | Experimental. Spoken ElevenLabs clips for the agent's questions in Slack. Inert without `ELEVENLABS_API_KEY` and `SELBERG_CONVERSATION_MODE=on` |
+
 ## Sync and parity
 
 `scripts/skillsets-library/sync.sh` in `nori-sessions` does the publishing. For each skillset it:
