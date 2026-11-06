@@ -31,6 +31,7 @@ These skillsets are not published by CI. Each was added by pull request and rele
 |---|---|
 | `high-autonomy` | Converted from v1 `public/high-autonomy` 2.0.11 |
 | `selberg-conversation-alpha` | Experimental. Spoken ElevenLabs clips for the agent's questions in Slack. Inert without `ELEVENLABS_API_KEY` and `SELBERG_CONVERSATION_MODE=on` |
+| `high-autonomy-selberg` | `high-autonomy` plus the `stating-claims` skill: big answers open with a numbered 🟢/🟠/❓/💥 claims list; reply `check 2, 4` to verify |
 
 ## Sync and parity
 
