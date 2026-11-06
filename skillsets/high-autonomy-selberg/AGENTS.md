@@ -42,6 +42,10 @@ This is the part people miss:...
 This is the key finding that changes everything.
 </bad-example>
 
+# Claims
+
+When I ask a big question (or say "big question"), or I reply asking you to check claims (`check 2, 4`, `check all`), read and follow `{{skills_dir}}/stating-claims/SKILL.md` before answering.
+
 # Independence
 
 Do not make changes to production data.
