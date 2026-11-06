@@ -1,0 +1,6 @@
+{
+  "name": "high-autonomy",
+  "version": "2.0.11",
+  "type": "skillset",
+  "description": "Stronger skill-reading reminder; remove stale building-agent-first-cli-tools dependency"
+}
