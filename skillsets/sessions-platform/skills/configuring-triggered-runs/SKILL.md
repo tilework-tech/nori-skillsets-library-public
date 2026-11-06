@@ -42,6 +42,7 @@ Automations run with org-wide credentials (plus the custom agent's) by default, 
 
 - **Standalone** (no `--slack-channel-id`): for background jobs. Nothing is posted unless the prompt names an exact destination (`#eng-updates`), and the bot must be in that channel (no DMs). Required for `--run-as-admin true` and `--personal true`.
 - **Slack thread** (`--slack-channel-id <id>`): for having the agent bring you collaborative work. Each run opens a thread, Nori posts the prompt and final reply, and people reply to keep working with the agent. Don't also tell the agent to post, or it appears twice.
+- **Project coordinator** (`--deliver-to coordinator`): for keeping a project moving. Each run wakes the project's coordinator conversation (restoring it if it is not running) and gives it the prompt as one AUTOMATION turn; the coordinator plans, delegates, and answers where it already talks. Cron or reminder in a project only, at most hourly, with no Slack, agent, size, admin, or personal settings. Follow the `planning-project-heartbeats` skill to turn a vague goal into the right heartbeat or reminder.
 
 `--slack-thread-header` sets the channel post in thread mode:
 - `standard` (default, recommended): a short header (name, schedule, agent). Everything else stays in the thread, keeping walls of text out of channel history.
@@ -61,5 +62,7 @@ A run can work under an existing message in the trigger's own `--slack-channel-i
 
 - Non-admin creates and updates wait for admin approval (dashboard Pending Approval, or `triggers approve` / `reject`); the old version keeps running meanwhile. Deleting is admin-only.
 - In a project session, `triggers create` files the trigger under `$NORI_PROJECT_ID` (except with `--personal true`). Pass `--project <id>` or `--project ''` to change that; `update` only changes it when `--project` is passed.
+- A run of a project automation records a project run and starts with the project's published context; while the project is archived or held, its firings wait. A coordinator-delivered run records nothing in project work: its record is the coordinator's conversation and the automation's last run.
+- A project's coordinator can create a one-time reminder delivered to itself between one hour and 14 days out without admin approval, while it has fewer than 3 waiting, each at least an hour apart. Everything else follows the approval rule above.
 
 <system-reminder> Webhook URLs are unauthenticated. Treat them as secrets. </system-reminder>
