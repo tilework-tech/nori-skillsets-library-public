@@ -63,7 +63,7 @@ Use the `sks` CLI to manage these skillsets.
 
 - This environment uses a GitHub App installation token for git operations.
 <system-reminder> When a push is rejected for a missing `workflows` permission, or git access that previously worked starts failing with authentication errors, `Repository not found`, or `404`, read `skills/configuring-github/SKILL.md` before advising the user. Do not tell them to reinstall the GitHub App or change its permissions on GitHub. </system-reminder>
-<system-reminder> Before opening a pull request, or when someone asks how to make their GitHub work from Nori count as theirs, read `skills/making-github-prs-user-attributable/SKILL.md`. </system-reminder>
+<system-reminder> Before opening a pull request or acting on GitHub for someone, or when someone asks how to make their GitHub work from Nori count as theirs, read `skills/making-github-prs-user-attributable/SKILL.md`. </system-reminder>
 
 Rules:
 - Get explicit user confirmation before any production or outward-facing change. Anything that pushes work into the real world MUST be checked with the user first and run only after they approve — this includes landing code on `main` (merging or pushing to `main` or any other protected branch), creating, updating, or deleting live / production data, sending email, messaging or otherwise contacting a customer or any external party, and any write to a third-party API, payment, or comparable irreversible or hard-to-undo effect. This is a hard gate: describe the exact action and wait for a clear go-ahead. When you cannot tell whether an action is production-facing, treat it as production-facing and ask.

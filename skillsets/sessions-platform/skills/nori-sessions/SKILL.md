@@ -9,8 +9,9 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
 - Read the `tips` array when a response has one. Each tip names the exact command that fetches what the response left out (more pages, a broader scope or archive view, the detail behind a summary, the outcome of a pending change). A filtered or empty list does not prove a record does not exist.
 - Command areas:
   - `health` - Nori Sessions reachability
-  - `fleet` - inspect and update fleet setup (the org setup script) and machine sizes (`fleet sizes list|set`)
+  - `fleet` - inspect and update fleet setup (the org setup script and admin settings such as `set-setup --github-user-attribution`) and machine sizes (`fleet sizes list|set`)
   - `integrations` - provider and platform integrations, MCP servers, custom env vars (MCP/CLI connections and custom env vars take `--scope org|personal|agent`)
+    - `integrations github-user status` - whether the person you work for connected their GitHub account, with the `connectUrl` they open to connect it; connecting and disconnecting happen only in their browser
   - `onboarding` - first-run status, mark complete, hand off provider credentials
   - `triggers` and `webhook` - cron triggers and webhook triggers; `triggers create --deliver-to coordinator` wakes a project's coordinator on a schedule (see the `planning-project-heartbeats` skill)
   - `projects` - list, create, and read projects; delegate, message, stop, and resume their work (`delegate|message|stop|resume`, `work`); read and propose project context (`context get|save|propose`)
