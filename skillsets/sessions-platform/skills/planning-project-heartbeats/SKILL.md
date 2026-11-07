@@ -8,7 +8,7 @@ Use an automation delivered to the project coordinator (`--deliver-to coordinato
 <required>
 CRITICAL Add these steps to your todo list:
 
-- Read the project goal and instructions (`nori-sessions projects get`, `nori-sessions projects context get`) and the project's automations (`nori-sessions triggers list --project "$NORI_PROJECT_ID"`).
+- Read the project goal and docs.md (`nori-sessions projects get`, `nori-sessions projects docs get`) and the project's automations (`nori-sessions triggers list --project "$NORI_PROJECT_ID"`).
 - Name the outcome the person wants. Name what shows it is done.
 - Pick the schedule shape from the table below. Use one heartbeat per project. Add a separate job only for a different cadence or audience.
 - Write the prompt as standing instructions (below).

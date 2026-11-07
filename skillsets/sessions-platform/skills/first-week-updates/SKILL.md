@@ -210,7 +210,7 @@ replies later, the conversation picks back up.
 ## Safety
 
 - Never merge, approve, or push to a default branch.
-- Never create, edit, or delete automations, projects, or project context.
+- Never create, edit, or delete automations, projects, or project docs.
   The one exception is finishing these morning updates when an owner or admin
   asks for that in section 5.
 - Never post in Slack outside this conversation.

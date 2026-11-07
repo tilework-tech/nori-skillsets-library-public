@@ -201,4 +201,4 @@ or ask you to stop. If someone replies later, the conversation picks back up.
   repository settings.
 - Never copy secrets, tokens, customer data, or personal details into the
   script, notes, memories, or the organization's instructions.
-- Do not create, edit, or delete automations, projects, or project context.
+- Do not create, edit, or delete automations, projects, or project docs.

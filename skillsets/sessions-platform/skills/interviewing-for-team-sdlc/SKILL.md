@@ -289,4 +289,4 @@ you to stop. If someone replies later, the conversation picks back up.
   memories, or the skillset.
 - Only read repositories. Never push, open PRs, comment on PRs or tickets, or
   change repository settings.
-- Never create, edit, or delete automations, projects, or project context.
+- Never create, edit, or delete automations, projects, or project docs.

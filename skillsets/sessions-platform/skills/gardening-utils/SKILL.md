@@ -172,4 +172,4 @@ instead.
   the helper itself looks wrong, and it looks like a bug, say so in your
   reply instead of changing it.
 - Never copy secrets, tokens, or customer data into code, commits, or replies.
-- Do not create, edit, or delete automations, projects, or project context.
+- Do not create, edit, or delete automations, projects, or project docs.

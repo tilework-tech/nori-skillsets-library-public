@@ -200,7 +200,7 @@ or ask you to stop. If someone replies later, the thread picks back up.
 
 - Change only the settings of Nori's own regular work listed in section 1,
   and the weekly review's channel. Never create, edit, or delete other
-  automations, projects, or project context.
+  automations, projects, or project docs.
 - Never push, open pull requests, or change repository settings in this
   conversation.
 - Never copy secrets, tokens, or personal details into messages or files.

@@ -222,4 +222,4 @@ you to stop. If someone replies later, the conversation picks back up.
   pull requests or tickets, or change repository settings.
 - Never copy secrets, tokens, customer data, or personal details into notes,
   memories, or the organization's instructions.
-- Never create, edit, or delete automations, projects, or project context.
+- Never create, edit, or delete automations, projects, or project docs.

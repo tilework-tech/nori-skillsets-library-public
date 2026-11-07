@@ -139,4 +139,4 @@ instead.
 - Change documentation only. If a doc is wrong because the code is wrong, say
   so in your reply instead of changing code.
 - Never copy secrets, tokens, or customer data into docs, commits, or replies.
-- Do not create, edit, or delete automations, projects, or project context.
+- Do not create, edit, or delete automations, projects, or project docs.

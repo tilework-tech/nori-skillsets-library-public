@@ -195,4 +195,4 @@ instead.
 - Never remove or skip a failing test to make the suite pass.
 - Never copy secrets, tokens, or customer data into tests, commits, or
   replies.
-- Do not create, edit, or delete automations, projects, or project context.
+- Do not create, edit, or delete automations, projects, or project docs.

@@ -62,7 +62,7 @@ A run can work under an existing message in the trigger's own `--slack-channel-i
 
 - Non-admin creates and updates wait for admin approval (dashboard Pending Approval, or `triggers approve` / `reject`); the old version keeps running meanwhile. Deleting is admin-only.
 - In a project session, `triggers create` files the trigger under `$NORI_PROJECT_ID` (except with `--personal true`). Pass `--project <id>` or `--project ''` to change that; `update` only changes it when `--project` is passed.
-- A run of a project automation records a project run and starts with the project's published context; while the project is archived or held, its firings wait. A coordinator-delivered run records nothing in project work: its record is the coordinator's conversation and the automation's last run.
+- A run of a project automation records a project run and starts by reading the project's docs.md, which it may also fix; while the project is archived or held, its firings wait. A coordinator-delivered run records nothing in project work: its record is the coordinator's conversation and the automation's last run.
 - A project's coordinator can create a one-time reminder delivered to itself between one hour and 14 days out without admin approval, while it has fewer than 3 waiting, each at least an hour apart. Everything else follows the approval rule above.
 
 <system-reminder> Webhook URLs are unauthenticated. Treat them as secrets. </system-reminder>

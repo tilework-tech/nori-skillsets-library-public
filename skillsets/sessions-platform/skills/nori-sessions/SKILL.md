@@ -14,7 +14,7 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
     - `integrations github-user status` - whether the person you work for connected their GitHub account, with the `connectUrl` they open to connect it; connecting and disconnecting happen only in their browser
   - `onboarding` - first-run status, mark complete, hand off provider credentials
   - `triggers` and `webhook` - cron triggers and webhook triggers; `triggers create --deliver-to coordinator` wakes a project's coordinator on a schedule (see the `planning-project-heartbeats` skill)
-  - `projects` - list, create, and read projects; delegate, message, stop, and resume their work (`delegate|message|stop|resume`, `work`); read and propose project context (`context get|save|propose`)
+  - `projects` - list, create, and read projects; delegate, message, stop, and resume their work (`delegate|message|stop|resume`, `work`); read and edit the project docs.md, which needs no approval (`docs get|save|history`)
   - `custom-agents` - named provider + model + skillset personas the org @-mentions in chat
   - `access` - who may use each custom agent (`restrict`, `grants add|remove`), the chat access policy, and the access audit log; needs the org's access-control feature (otherwise `not_found`), admin, and for changes from a session an approved `!admin` request
   - `checkpoint` - create or apply workspace checkpoint bundles
