@@ -52,7 +52,7 @@ nori-sessions views pull
 
 It sets up `~/org/workspace/my-view/` as a git repository with:
 
-- `nori-kit/`: the SDK types (`nori-view-sdk.d.ts`), the guide (`README.md`), the preview page, and a fuller example (`examples/grid-2x2.js`: panes, a picker, starting conversations, `nori.state`), for the Nori version you publish to. Read the types and the guide before writing code; where they differ from this skill, the kit wins. Do not edit `nori-kit/`: `pull` refreshes it.
+- `nori-kit/`: the SDK types (`nori-view-sdk.d.ts`), the guide (`README.md`), the preview page, and a fuller example (`examples/grid-2x2.js`: panes, a picker, starting conversations, `nori.state`, conversation links in a focused pane), for the Nori version you publish to. Read the types and the guide before writing code; where they differ from this skill, the kit wins. Do not edit `nori-kit/`: `pull` refreshes it.
 - `src/view.js`: the view. The JSON `pull` prints says what it holds: `"viewSource": "active-view"` (the user's view), `"starter"` (a one-pane example to replace), or `"unchanged"` (your earlier edits).
 - `nori-view.json`: the name the view is published under.
 - `README.md`, `package.json`, `vite.config.js`, `index.html`: the build and preview template.
@@ -74,7 +74,8 @@ Follow these rules. They are what keeps the user's browser safe and their way ba
 - Keep navigation inside the view (which pane or screen shows lives in your own variables and `nori.state`). Never call `history.pushState`/`replaceState` or change `location`. To show a conversation in the default Nori UI, call `nori.host.openConversation(id)`.
 - Keep the view usable on a phone. Collapse multi-column layouts to one column on narrow screens (a CSS media or container query), keep tap targets at least 40px, and never require a hover or a keyboard shortcut.
 - Use `<nori-chat transcript-id="...">` for conversations. Never re-implement the chat protocol. It draws its own title header and composer; do not repeat the title above it.
-- Return a cleanup from `mount` that removes every listener, timer, observer, and framework root the view created.
+- Return a cleanup from `mount` that removes every listener, timer, observer, and framework root the view created. Draw something at once: a view that shows nothing in its first 5 s, or takes over 20 s to load and mount, falls back to the default view.
+- A view mounts on the Chat home page (`/chat`). It mounts on a conversation's page (`/chat/<id>`) too only when the module exports `handles = ['conversation']`. When the person wants the view to stay their home while they open conversations (from Slack, a notification, or a link), export `handles`, show the conversation from `nori.route.current()` (for example in a focused pane), follow `nori.route.onChange`, and unsubscribe in the cleanup. Without `handles`, conversation links open in the default UI.
 
 ## 5. Preview it, fix what the preview flags, and commit
 
@@ -82,9 +83,10 @@ The kit's preview page mounts the view the way the web UI does, with made-up con
 
 1. From `~/org/workspace/my-view/`, install once and start it in the background: `npm install && nohup npm run preview > preview.log 2>&1 &`. It serves `http://127.0.0.1:4317/`.
 2. Open that URL in the session's browser (the `using-a-web-browser` skill), at 1440x900 and at 390x844, and once with `?theme=dark`. Screenshot each and look at them. Also read `window.noriPreview.problems` and `.errors`. Playwright locators reach into the view's open shadow roots, so click by role or text.
-3. Fix every problem, error, and anything that looks wrong, then check again. Click through what the person asked for (open, pick, start, back) in the preview.
-4. The bundle must be one self-contained ES module under 2 MiB: bundle any framework in, with no relative or remote imports and no runtime CDN. Plain JavaScript in `src/view.js` needs no build. For TypeScript or a framework, follow the kit's `README.md`, and open the preview with `?entry=/src/<your entry>`.
-5. Commit the source and `package-lock.json` in `~/org/workspace/my-view/` so the next change starts from it.
+3. For a view that exports `handles`, also open the preview with `?conversation=preview-3` and check that the view shows that conversation.
+4. Fix every problem, error, and anything that looks wrong, then check again. Click through what the person asked for (open, pick, start, back) in the preview.
+5. The bundle must be one self-contained ES module under 2 MiB: bundle any framework in, with no relative or remote imports and no runtime CDN. Plain JavaScript in `src/view.js` needs no build. For TypeScript or a framework, follow the kit's `README.md`, and open the preview with `?entry=/src/<your entry>`.
+6. Commit the source and `package-lock.json` in `~/org/workspace/my-view/` so the next change starts from it.
 
 If there is no browser in this session, say so to the user, and check at least that the module exports `mount`: `node --input-type=module -e "import('file://$PWD/src/view.js').then((m) => console.log(typeof m.mount))"`.
 
@@ -104,7 +106,7 @@ Always pass `--activate`; without it the view is stored but the web UI keeps ope
 Tell the user, briefly:
 
 - what they will see now, without reloading: Nori pages they have open on the Chat home page switch to the view by themselves, and the chat they asked in shows "Your view is ready" with an **Open it** button that opens the view (the browser's Back button returns to the chat). A tab where they went back to the default view stays there and offers "Back to my view".
-- where the view lives: the Chat home page only. Give them the exact URL from `echo "$NORI_SESSIONS_URL/chat"`. A single conversation's page (`/chat/<id>`), Settings, and other pages keep the default UI
+- where the view lives: the Chat home page. Give them the exact URL from `echo "$NORI_SESSIONS_URL/chat"`. A single conversation's page (`/chat/<id>`) opens in the view only if it exports `handles = ['conversation']`, and only after the view has loaded once in that browser; otherwise it keeps the default UI. Settings and other pages always keep the default UI
 - how to get back to the default view at any time: click the "← Nori" pill, press Alt+Shift+D, or open the page with `?view=default`
 - that a view that crashes sends them back to the default view automatically
 - that you can return them to the default view (`nori-sessions views use --default`) or roll back to an earlier version (`nori-sessions views versions <name>`, then `nori-sessions views rollback <name> --to <version>`, with the name from `nori-view.json`) if they ask
