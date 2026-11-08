@@ -19,6 +19,7 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `access` - who may use each custom agent (`restrict`, `grants add|remove`), the chat access policy, and the access audit log; needs the org's access-control feature (otherwise `not_found`), admin, and for changes from a session an approved `!admin` request
   - `checkpoint` - create or apply workspace checkpoint bundles
   - `transcripts` - list, summarize, and read conversations; `list` takes `--scope mine|authored|unread|all` or `--project <id>` (not both), plus `--archived` and `--cursor`
+  - `logs` - `logs query --query <LogsQL> [--start --end --limit]` reads this org's service logs; see the `fixing-unspecified-platform-problems` skill for how to triage them
   - `memories` - search, save, revise, or delete reusable knowledge; read `{{skills_dir}}/using-session-memories/SKILL.md` for capture and retrieval guidance
 - To link the user to this chat in the dashboard, run `nori-sessions transcripts resolve-session --self` and post `$NORI_SESSIONS_URL/chat/<transcriptId>` with both parts resolved.
 - To shut yourself down when the user asks you to stop, end, or turn yourself off, run `nori-sessions sessions release --self --reason agent_requested`. In Slack, web chat, and the Nori CLI, Nori Sessions waits for your current reply to reach the user, then releases the machine and marks the conversation ended; in Discord the release happens immediately. Always pass `--reason`; a bare release tears the machine down mid-turn and drops your answer.
