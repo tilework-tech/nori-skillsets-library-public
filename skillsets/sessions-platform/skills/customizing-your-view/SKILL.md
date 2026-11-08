@@ -76,6 +76,7 @@ Follow these rules. They are what keeps the user's browser safe and their way ba
 - Use `<nori-chat transcript-id="...">` for conversations. Never re-implement the chat protocol. It draws its own title header and composer; do not repeat the title above it.
 - Draw a loading state into `el` at the start of `mount`, before awaiting anything. A view that shows nothing in its first 5 seconds, or takes over 20 seconds to load and mount, falls back to the default UI.
 - Return a cleanup from `mount` that removes every listener, timer, observer, and framework root the view created.
+- Keep per-mount state inside `mount`. The web UI imports each version once and reuses it, so state at module top level persists between mounts of the same version (after `openConversation` and Back, or a rollback to a version already shown).
 - A view mounts on the Chat home page (`/chat`). It mounts on a conversation's page (`/chat/<id>`) too only when the module exports `handles = ['conversation']`. When the person wants the view to stay their home while they open conversations (from Slack, a notification, or a link), export `handles`, show the conversation from `nori.route.current()` (for example in a focused pane), follow `nori.route.onChange`, and unsubscribe in the cleanup. Without `handles`, conversation links open in the default UI.
 
 ## 5. Preview it, fix what the preview flags, and commit
