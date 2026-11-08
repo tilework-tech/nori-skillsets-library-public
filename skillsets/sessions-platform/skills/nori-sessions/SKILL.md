@@ -3,24 +3,38 @@ name: nori-sessions
 description: Use when inspecting / changing global, fleet- and org-wide state — onboarding status, fleet setup and default skillset, integrations, triggers, webhooks, health, and checkpoints.
 ---
 
-<system-note> Use the `sks` CLI for anything scoped to skillsets, not this nori-sessions cli. </system-note>
+<system-note> Use the `sks` CLI to install, switch, or edit skillsets. `nori-sessions skillsets` only browses them. </system-note>
 
 - `nori-sessions` (pre-installed at `~/.local/bin/`) talks to the Nori Sessions HTTP API and prints JSON for both success and failure. Use `--help` on any subcommand for syntax.
+- The CLI covers the whole API. It does not hide commands you may lack permission for; Nori Sessions refuses those with a 401/403 error, so read the error instead of assuming a command is missing.
 - Read the `tips` array when a response has one. Each tip names the exact command that fetches what the response left out (more pages, a broader scope or archive view, the detail behind a summary, the outcome of a pending change). A filtered or empty list does not prove a record does not exist.
 - Command areas:
-  - `health` - Nori Sessions reachability
-  - `fleet` - inspect and update fleet setup (the org setup script and admin settings such as `set-setup --github-user-attribution`) and machine sizes (`fleet sizes list|set`)
-  - `integrations` - provider and platform integrations, MCP servers, custom env vars (MCP/CLI connections and custom env vars take `--scope org|personal|agent`)
-    - `integrations github-user status` - whether the person you work for connected their GitHub account, with the `connectUrl` they open to connect it; connecting and disconnecting happen only in their browser
-  - `onboarding` - first-run status, mark complete, hand off provider credentials
+  - `health`, `version`, `auth whoami` - Nori Sessions reachability (`health live|ready`), the running server version, and the identity this CLI calls as
+  - `sessions` - list, start, release, resume, and hand off session machines; the web capacity queue (`queue`, `idle`, `end-idle`); per-session history, contributors, transcript, preview URL, and file `attach`/`download`
+  - `fleet` - inspect and update fleet setup (the org setup script and admin settings such as `set-setup --github-user-attribution`), machine sizes (`fleet sizes list|set`), the start queue, sandbox provider, and the org agent (`get-agent|set-agent`)
+  - `config` and `billing` - org provider/model settings and feature flags; plan, usage, and fleet capacity limits
+  - `integrations` - provider and platform integrations, MCP servers, custom env vars (MCP/CLI connections and custom env vars take `--scope org|personal|agent`), credential health, and provider connect flows
+    - `integrations github-user status` - whether the person you work for connected their GitHub account, with the `connectUrl` they open to connect it; connecting and disconnecting happen only in their browser (`github-user disconnect` is refused unless a person is signed in)
+  - `slack-proxy` - call a Slack Web API method or download a shared file with this conversation's Slack grant (`--slack-token`, else `NORI_SLACK_CONTEXT_TOKEN` from `~/.nori/env.d/slack.sh`), limited to the channels the grant covers
+  - `vault` - read provider credentials session machines pull (`codex-token`)
+  - `onboarding` and `levelup` - first-run status, mark complete or skip, hand off provider credentials; the post-onboarding level-up flow
   - `triggers` and `webhook` - cron triggers and webhook triggers; `triggers create --deliver-to coordinator` wakes a project's coordinator on a schedule (see the `planning-project-heartbeats` skill)
-  - `projects` - list, create, and read projects; delegate, message, stop, and resume their work (`delegate|message|stop|resume`, `work`); read and edit the project docs.md, which needs no approval (`docs get|save|history`)
-  - `custom-agents` - named provider + model + skillset personas the org @-mentions in chat
+  - `projects` - list, create, and read projects; delegate, message, stop, resume, and retry their work (`delegate|message|stop|resume|retry`, `work`, `held-work`); read and edit the project docs.md, which needs no approval (`docs get|save|history`); attach automations and chats (`triggers`, `chats`)
+  - `channels` - channel mode: bind a channel to a custom agent or a project coordinator (admin; differs from `projects channels`)
+  - `custom-agents` and `agents` - named provider + model + skillset personas the org @-mentions in chat; which agents you can start a chat with and which harnesses the org supports
   - `access` - who may use each custom agent (`restrict`, `grants add|remove`), the chat access policy, and the access audit log; needs the org's access-control feature (otherwise `not_found`), admin, and for changes from a session an approved `!admin` request
+  - `skillsets`, `skill-improvement`, `skillset-changes` - browse skillsets and the skills a session would install; read transcripts for a skill-improvement review and submit, approve, or reject proposed org skillset changes (approval is an admin's decision)
+  - `scripts` - setup scripts and their versions
   - `checkpoint` - create or apply workspace checkpoint bundles
-  - `transcripts` - list, summarize, and read conversations; `list` takes `--scope mine|authored|unread|all` or `--project <id>` (not both), plus `--archived` and `--cursor`
-  - `logs` - `logs query --query <LogsQL> [--start --end --limit]` reads this org's service logs; see the `fixing-unspecified-platform-problems` skill for how to triage them
+  - `transcripts` - list, summarize, and read conversations; `list` takes `--scope mine|authored|unread|all` or `--project <id>` (not both), plus `--archived` and `--cursor`; also pin, follow, rename, archive, and resume them
+  - `multiplex` - live conversations side by side; `multiplex watch` reads the live feed for a bounded time (`--max-events`, `--timeout-ms`)
+  - `stats` and `logs` - session statistics; `logs query --query <LogsQL> [--start --end --limit]` reads this org's service logs; see the `fixing-unspecified-platform-problems` skill for how to triage them
   - `memories` - search, save, revise, or delete reusable knowledge; read `{{skills_dir}}/using-session-memories/SKILL.md` for capture and retrieval guidance
+  - `notifications` - list and dismiss Nori Sessions notifications
+  - `help-request` - send Nori's team a help request; see the `reporting-to-nori` skill
+  - `users`, `invites`, `admin-escalation` - org members, invite links, and `!admin` requests (admin)
+  - `preferences`, `push`, `views` - the signed-in person's dashboard preferences, browser push subscriptions, and custom web UI views
+  - `e2e` - end-to-end testing utilities
 - To link the user to this chat in the dashboard, run `nori-sessions transcripts resolve-session --self` and post `$NORI_SESSIONS_URL/chat/<transcriptId>` with both parts resolved.
 - To shut yourself down when the user asks you to stop, end, or turn yourself off, run `nori-sessions sessions release --self --reason agent_requested`. In Slack, web chat, and the Nori CLI, Nori Sessions waits for your current reply to reach the user, then releases the machine and marks the conversation ended; in Discord the release happens immediately. Always pass `--reason`; a bare release tears the machine down mid-turn and drops your answer.
 
