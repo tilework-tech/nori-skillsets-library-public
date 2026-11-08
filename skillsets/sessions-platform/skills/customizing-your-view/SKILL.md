@@ -95,7 +95,7 @@ Always pass `--activate`; without it the view is stored but the web UI keeps ope
 
 Tell the user, briefly:
 
-- the view is published and opens the next time they load or reload the Nori web UI
+- what they will see now, without reloading: Nori pages they have open on the home page (`/chat`) switch to the view by themselves, and the chat they asked in shows "Your view is ready" with an **Open it** button that opens the view (the browser's Back button returns to the chat). A tab where they went back to the default view stays there and offers "Back to my view".
 - how to get back to the default view at any time: click the "← Nori" pill, press Alt+Shift+D, or open the page with `?view=default`
 - that a view that crashes sends them back to the default view automatically
 - that you can return them to the default view (`nori-sessions views use --default`) or roll back to an earlier version (`nori-sessions views versions <name>`, then `nori-sessions views rollback <name> --to <version>`, with the name from `nori-view.json`) if they ask
