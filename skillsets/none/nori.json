@@ -1,6 +1,0 @@
-{
-  "name": "none",
-  "version": "1.0.60",
-  "type": "skillset",
-  "description": "Empty session skillset. Selecting it runs a session with only the platform and organization layers, even when the organization has a default skillset."
-}
