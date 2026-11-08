@@ -12,7 +12,7 @@ CRITICAL Add the following steps to your task tracker (TaskCreate, update_plan, 
 2. Confirm who the view is for and what it should do.
 3. Get the authoring kit and the current view.
 4. Write the view.
-5. Build and test it.
+5. Preview it, fix what the preview flags, and commit.
 6. Publish and activate it.
 7. Tell the user what changed and how to get back to the default view.
 </required>
@@ -52,41 +52,49 @@ nori-sessions views pull
 
 It sets up `~/org/workspace/my-view/` as a git repository with:
 
-- `nori-kit/`: the SDK types (`nori-view-sdk.d.ts`) and rules (`README.md`) for the Nori version you publish to. Read both before writing code; where they differ from this skill, the kit wins. Do not edit them: `pull` refreshes them.
-- `src/view.js`: the user's active view, or a 2x2 grid starter when they have none.
+- `nori-kit/`: the SDK types (`nori-view-sdk.d.ts`), the guide (`README.md`), the preview page, and a fuller example (`examples/grid-2x2.js`: panes, a picker, starting conversations, `nori.state`), for the Nori version you publish to. Read the types and the guide before writing code; where they differ from this skill, the kit wins. Do not edit `nori-kit/`: `pull` refreshes it.
+- `src/view.js`: the view. The JSON `pull` prints says what it holds: `"viewSource": "active-view"` (the user's view), `"starter"` (a one-pane example to replace), or `"unchanged"` (your earlier edits).
 - `nori-view.json`: the name the view is published under.
-- `README.md`, `package.json`, `vite.config.js`: the build template.
+- `README.md`, `package.json`, `vite.config.js`, `index.html`: the build and preview template.
 
 If the directory already exists from earlier work, add `--force` only after checking `git status` there, so you do not overwrite uncommitted edits.
 
 If `pull` is not a command (`unknown command`), this machine's CLI is older than the custom views feature. Tell the user and stop.
 
-Edit the existing view when the user asks for a change to it. Start fresh only when they ask for something new.
+Edit the existing view when the user asks for a change to it. When they ask for something new, replace the starter with what they asked for; borrow patterns from `nori-kit/examples/grid-2x2.js` where they fit.
 
 ## 4. Write the view
 
 Follow these rules. They are what keeps the user's browser safe and their way back intact.
 
 - Use only the public SDK: `nori` and the `<nori-*>` elements it names. Never call `fetch('/api/...')`, open WebSockets, read or write localStorage, sessionStorage, or cookies, read tokens, or import the app's internal stores, components, or modules.
-- Render only inside `el`. It sits in a shadow root. Put styles in a `<style>` inside `el` and use the theme variables (`--background`, `--foreground`, `--surface`, `--border`, `--muted-foreground`, `--accent`, `--font-body`, `--font-mono`) so light and dark both work. Never touch `document` outside `el`.
-- Never disable, hide, or cover the way back to the default view: the "← Nori" pill, Alt+Shift+D, and `?view=default`. Do not bind Alt+Shift+D, open full-page modal dialogs or popovers over the pill, or rewrite the URL.
-- Keep the view usable on a phone. Collapse multi-column layouts to one column on narrow screens (a CSS media or container query), keep tap targets large, and never require a hover or a keyboard shortcut.
-- Use `<nori-chat transcript-id="...">` for conversations. Never re-implement the chat protocol.
+- Render only inside `el`. It sits in a shadow root and fills the whole window: give your outermost element `height: 100%`. Put styles in a `<style>` inside `el` and use the theme variables (`--background`, `--foreground`, `--surface`, `--border`, `--muted-foreground`, `--accent`, `--font-body`, `--font-mono`) so light and dark both work. Never touch `document` outside `el`.
+- Give every `<nori-chat>` a definite height: a child of a grid or flex container that has a height, in a `1fr` track (not `auto`), with `min-height: 0`. A chat in an `auto` row collapses to its header and composer.
+- Never disable, hide, or cover the way back to the default view: the "← Nori" pill, Alt+Shift+D, and `?view=default`. The pill sits in the bottom-right corner (12px in, about 90x30px): keep buttons and composers out of that corner, for example with `padding-bottom: 48px` on the view's outermost element. Put that padding on an element that does not scroll, with the scrolling area inside it; padding on a scrolling element lets content scroll under the pill. Do not bind Alt+Shift+D or open full-page modal dialogs or popovers over the pill.
+- Keep navigation inside the view (which pane or screen shows lives in your own variables and `nori.state`). Never call `history.pushState`/`replaceState` or change `location`. To show a conversation in the default Nori UI, call `nori.host.openConversation(id)`.
+- Keep the view usable on a phone. Collapse multi-column layouts to one column on narrow screens (a CSS media or container query), keep tap targets at least 40px, and never require a hover or a keyboard shortcut.
+- Use `<nori-chat transcript-id="...">` for conversations. Never re-implement the chat protocol. It draws its own title header and composer; do not repeat the title above it.
 - Return a cleanup from `mount` that removes every listener, timer, observer, and framework root the view created.
 
-## 5. Build and test it
+## 5. Preview it, fix what the preview flags, and commit
 
-- The view must build to one self-contained ES module under 2 MiB: bundle any framework in, with no relative or remote imports and no runtime CDN. Plain JavaScript in `src/view.js` needs no build. For TypeScript or a framework, follow the kit's `README.md` (add it to `package.json` and point `build.lib.entry` in `vite.config.js` at your entry).
-- Check the module loads and exports `mount`, for example `node --input-type=module -e "import('file://$PWD/src/view.js').then((m) => console.log(typeof m.mount))"` for plain JavaScript, or the same against `dist/view.js` after `npm run build` (DOM code may fail under Node; only the export matters here).
-- Commit the source in `~/org/workspace/my-view/` so the next change starts from it.
+The kit's preview page mounts the view the way the web UI does, with made-up conversations, stand-ins for the `<nori-*>` elements, and the pill in its real place. It lists layout problems in a red banner (its Hide button clears it for a screenshot) and in the console as `[nori-preview] ...`, and in `window.noriPreview.problems` / `.errors` (arrays of strings; both empty means it found nothing).
+
+1. From `~/org/workspace/my-view/`, install once and start it in the background: `npm install && nohup npm run preview > preview.log 2>&1 &`. It serves `http://127.0.0.1:4317/`.
+2. Open that URL in the session's browser (the `using-a-web-browser` skill), at 1440x900 and at 390x844, and once with `?theme=dark`. Screenshot each and look at them. Also read `window.noriPreview.problems` and `.errors`. Playwright locators reach into the view's open shadow roots, so click by role or text.
+3. Fix every problem, error, and anything that looks wrong, then check again. Click through what the person asked for (open, pick, start, back) in the preview.
+4. The bundle must be one self-contained ES module under 2 MiB: bundle any framework in, with no relative or remote imports and no runtime CDN. Plain JavaScript in `src/view.js` needs no build. For TypeScript or a framework, follow the kit's `README.md`, and open the preview with `?entry=/src/<your entry>`.
+5. Commit the source and `package-lock.json` in `~/org/workspace/my-view/` so the next change starts from it.
+
+If there is no browser in this session, say so to the user, and check at least that the module exports `mount`: `node --input-type=module -e "import('file://$PWD/src/view.js').then((m) => console.log(typeof m.mount))"`.
 
 ## 6. Publish and activate it
 
 From `~/org/workspace/my-view/`:
 
 ```sh
-nori-sessions views publish --activate             # install, build, upload dist/view.js
 nori-sessions views publish --activate --no-build  # plain JavaScript: upload src/view.js as it is
+nori-sessions views publish --activate             # TypeScript or a framework: install, build, upload dist/view.js
 ```
 
 Always pass `--activate`; without it the view is stored but the web UI keeps opening the old one. The command prints the published version as JSON. If it fails, report the error and do not retry by another route.
@@ -95,7 +103,8 @@ Always pass `--activate`; without it the view is stored but the web UI keeps ope
 
 Tell the user, briefly:
 
-- what they will see now, without reloading: Nori pages they have open on the home page (`/chat`) switch to the view by themselves, and the chat they asked in shows "Your view is ready" with an **Open it** button that opens the view (the browser's Back button returns to the chat). A tab where they went back to the default view stays there and offers "Back to my view".
+- what they will see now, without reloading: Nori pages they have open on the Chat home page switch to the view by themselves, and the chat they asked in shows "Your view is ready" with an **Open it** button that opens the view (the browser's Back button returns to the chat). A tab where they went back to the default view stays there and offers "Back to my view".
+- where the view lives: the Chat home page only. Give them the exact URL from `echo "$NORI_SESSIONS_URL/chat"`. A single conversation's page (`/chat/<id>`), Settings, and other pages keep the default UI
 - how to get back to the default view at any time: click the "← Nori" pill, press Alt+Shift+D, or open the page with `?view=default`
 - that a view that crashes sends them back to the default view automatically
 - that you can return them to the default view (`nori-sessions views use --default`) or roll back to an earlier version (`nori-sessions views versions <name>`, then `nori-sessions views rollback <name> --to <version>`, with the name from `nori-view.json`) if they ask
