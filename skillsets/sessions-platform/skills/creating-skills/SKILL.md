@@ -11,8 +11,10 @@ description: Use when you need to create a new custom skill for a profile - guid
 3. Create skill directory structure
 4. Write SKILL.md with proper frontmatter
 5. (Optional) Write and bundle scripts
-6. Run `npx nori-lint lint {{skills_dir}}/my-new-skill/` and fix every violation
-7. Instruct the user to run /nori-switch-profile to switch profiles.
+6. Get my approval on the skill's content
+7. If `{{skills_dir}}/cleaning-up-skill-voice/SKILL.md` exists, read and follow it on the new skill. Otherwise, rewrite the skill's prose into plain imperative sentences, one instruction per sentence, without changing what the skill does.
+8. Run `npx nori-lint lint {{skills_dir}}/my-new-skill/` and fix every violation
+9. Instruct the user to run /nori-switch-profile to switch profiles.
 </required>
 
 # Overview
