@@ -47,9 +47,15 @@ custom-agents`: `list`, `set`, `add`, `sync`, `usergroup-conflict`,
 `adopt-usergroup`.
 
 To create or update one agent, use `custom-agents add --handle <handle>
---provider <provider> [--model] [--skillset] [--size] [--description]`: it
-reads the current set, merges that one agent, and writes the whole set back,
-so the org's other agents are preserved.
+--provider <provider> [--model] [--skillset] [--size] [--thinking]
+[--description]`: it reads the current set, merges that one agent, and writes
+the whole set back, so the org's other agents are preserved.
+
+`--thinking <level>` (alias `--effort`) pins the reasoning level the agent's
+conversations start at; blank clears it to the org default. The allowed
+levels depend on the agent's harness and model, and Nori rejects others
+with the list. Never encode a level in the model id (`model#medium`): pass
+the bare model and `--thinking medium`.
 
 <system-reminder> `custom-agents set` replaces the WHOLE set of custom agents.
 Always `custom-agents list` first, edit that payload, and pass the full set
