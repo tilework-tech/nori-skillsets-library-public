@@ -104,7 +104,7 @@ Follow these rules. They are what keeps the user's browser safe and their way ba
 
 ## 5. Preview it, fix what the preview flags, and commit
 
-The kit's preview page mounts the view the way the web UI does, with made-up conversations, stand-ins for the `<nori-*>` elements, and the pill in its real place. It lists layout problems in a red banner (its Hide button clears it for a screenshot) and in the console as `[nori-preview] ...`, and in `window.noriPreview.problems` / `.errors` (arrays of strings; both empty means it found nothing).
+The kit's preview page mounts the view the way the web UI does, with made-up conversations, stand-ins for the `<nori-*>` elements, and the pill in its real place. It lists layout problems (including tap targets under 44px) and anything Nori would fall back from (a mount that fails, a view that draws nothing, a load that takes too long) in a red banner (its Hide button clears it for a screenshot) and in the console as `[nori-preview] ...`, and in `window.noriPreview.problems` / `.errors` (arrays of strings; both empty means it found nothing).
 
 1. From `~/org/workspace/my-view/`, install once and start it in the background: `npm install && nohup npm run preview > preview.log 2>&1 &`. It serves `http://127.0.0.1:4317/`.
 2. Open that URL in the session's browser (the `using-a-web-browser` skill), at 1440x900 and at 390x844, and once with `?theme=dark`. Screenshot each and look at them. Also read `window.noriPreview.problems` and `.errors`. Playwright locators reach into the view's open shadow roots, so click by role or text.
