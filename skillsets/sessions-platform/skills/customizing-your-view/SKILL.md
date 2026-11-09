@@ -54,7 +54,7 @@ nori-sessions views pull
 
 It sets up `~/org/workspace/my-view/` as a git repository with:
 
-- `nori-kit/`: the SDK types (`nori-view-sdk.d.ts`), the guide (`README.md`), the preview page, and a fuller example (`examples/grid-2x2.js`: panes, a picker, starting conversations, `nori.state`, conversation links in a focused pane), for the Nori version you publish to. Read the types and the guide before writing code; where they differ from this skill, the kit wins. Do not edit `nori-kit/`: `pull` refreshes it.
+- `nori-kit/`: the SDK types (`nori-view-sdk.d.ts`), the guide (`README.md`), the preview page, and fuller examples (`examples/grid-2x2.js`: panes, a picker, starting conversations, `nori.state`, conversation links in a focused pane; `examples/composer-desk.js`: one conversation laid out from a status badge, transcript, and composer), for the Nori version you publish to. Read the types and the guide before writing code; where they differ from this skill, the kit wins. Do not edit `nori-kit/`: `pull` refreshes it.
 - `src/view.js`: the view. The JSON `pull` prints says what it holds: `"viewSource": "active-view"` (the user's view), `"starter"` (a one-pane example to replace), or `"unchanged"` (your earlier edits).
 - `nori-view.json`: the name the view is published under.
 - `README.md`, `package.json`, `vite.config.js`, `index.html`: the build and preview template.
@@ -65,7 +65,7 @@ If the directory already exists from earlier work, add `--force` only after chec
 
 If `pull` is not a command (`unknown command`), this machine's CLI is older than the custom views feature. Tell the user and stop.
 
-Edit the existing view when the user asks for a change to it. When they ask for something new, replace the starter with what they asked for; borrow patterns from `nori-kit/examples/grid-2x2.js` where they fit.
+Edit the existing view when the user asks for a change to it. When they ask for something new, replace the starter with what they asked for; borrow patterns from `nori-kit/examples/` where they fit.
 
 ## 4. Write the view
 
@@ -77,7 +77,7 @@ Follow these rules. They are what keeps the user's browser safe and their way ba
 - Never disable, hide, or cover the way back to the default view: the "← Nori" pill, Alt+Shift+D, and `?view=default`. The pill sits in the bottom-right corner (12px in, about 90x30px): keep buttons and composers out of that corner, for example with `padding-bottom: 48px` on the view's outermost element. Put that padding on an element that does not scroll, with the scrolling area inside it; padding on a scrolling element lets content scroll under the pill. Do not bind Alt+Shift+D or open full-page modal dialogs or popovers over the pill.
 - Keep navigation inside the view (which pane or screen shows lives in your own variables and `nori.state`). Never call `history.pushState`/`replaceState` or change `location`. To show a conversation in the default Nori UI, call `nori.host.openConversation(id)`.
 - Keep the view usable on a phone. Collapse multi-column layouts to one column on narrow screens (a CSS media or container query), keep tap targets at least 40px, and never require a hover or a keyboard shortcut.
-- Use `<nori-chat transcript-id="...">` for conversations. Never re-implement the chat protocol. It draws its own title header and composer; do not repeat the title above it.
+- Use `<nori-chat transcript-id="...">` for a whole conversation. Never re-implement the chat protocol. It draws its own title header and composer; do not repeat the title above it.
 - Compose the first-party building blocks instead of rebuilding them. The kit's `README.md` documents each one's attributes and events:
   - `<nori-chat transcript-id="...">`: one conversation, live or read only.
   - `<nori-conversation-list>`: a list to pick a conversation from (`nori-select`).
@@ -85,6 +85,8 @@ Follow these rules. They are what keeps the user's browser safe and their way ba
   - `<nori-new-chat>`: the default new-chat composer with the agent and model pickers. It fires `nori-select` with the new conversation's id; show that id in a `<nori-chat>`.
   - `<nori-unread-badge>`: the unread conversation count, for your own button or heading.
   - `<nori-projects>` (`nori-select-project`) and `<nori-project-work project-id="...">` (`nori-select` for a run's conversation): the person's projects and one project's work runs.
+  - `<nori-transcript>`, `<nori-composer>`, and `<nori-session-status>` (all `transcript-id="..."`): one conversation laid out in pieces. Give `<nori-transcript>` a height like `<nori-chat>`. Only one composer per page writes at a time, and `<nori-new-chat>` shares that slot: use one or the other.
+  - `<nori-markdown source="...">`: markdown text, such as a running conversation's `lastLine`.
 - Draw a loading state into `el` at the start of `mount`, before awaiting anything. A view that shows nothing in its first 5 seconds, or takes over 20 seconds to load and mount, falls back to the default UI.
 - Return a cleanup from `mount` that removes every listener, timer, observer, and framework root the view created.
 - Keep per-mount state inside `mount`. The web UI imports each version once and reuses it, so state at module top level persists between mounts of the same version (after `openConversation` and Back, or a rollback to a version already shown).
