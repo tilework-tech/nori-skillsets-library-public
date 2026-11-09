@@ -58,6 +58,8 @@ It sets up `~/org/workspace/my-view/` as a git repository with:
 - `nori-view.json`: the name the view is published under.
 - `README.md`, `package.json`, `vite.config.js`, `index.html`: the build and preview template.
 
+To match the default Nori UI closely (its exact colours, spacing, and CSS custom properties, how it draws chats, markdown, and running states, or how it behaves on a phone), add `--with-ui-source`. It also lays down the default web UI's source in `nori-kit/reference/ui/` as a read-only reference (about 1 MB to download, 6 MB unpacked), and later pulls refresh it. Search it for what you need to match. Copy only presentational code from it (CSS, markup patterns, SVG icons, pure helpers that import nothing from the app); never import from it.
+
 If the directory already exists from earlier work, add `--force` only after checking `git status` there, so you do not overwrite uncommitted edits.
 
 If `pull` is not a command (`unknown command`), this machine's CLI is older than the custom views feature. Tell the user and stop.
@@ -68,7 +70,7 @@ Edit the existing view when the user asks for a change to it. When they ask for 
 
 Follow these rules. They are what keeps the user's browser safe and their way back intact.
 
-- Use only the public SDK: `nori` and the `<nori-*>` elements it names. Never call `fetch('/api/...')`, open WebSockets, read or write localStorage, sessionStorage, or cookies, read tokens, or import the app's internal stores, components, or modules.
+- Use only the public SDK: `nori` and the `<nori-*>` elements it names. Never call `fetch('/api/...')`, open WebSockets, read or write localStorage, sessionStorage, or cookies, read tokens, or import the app's internal stores, components, or modules, including anything in `nori-kit/reference/`.
 - Render only inside `el`. It sits in a shadow root and fills the whole window: give your outermost element `height: 100%`. Put styles in a `<style>` inside `el` and use the theme variables (`--background`, `--foreground`, `--surface`, `--border`, `--muted-foreground`, `--accent`, `--font-body`, `--font-mono`) so light and dark both work. Never touch `document` outside `el`.
 - Give every `<nori-chat>` a definite height: a child of a grid or flex container that has a height, in a `1fr` track (not `auto`), with `min-height: 0`. A chat in an `auto` row collapses to its header and composer.
 - Never disable, hide, or cover the way back to the default view: the "← Nori" pill, Alt+Shift+D, and `?view=default`. The pill sits in the bottom-right corner (12px in, about 90x30px): keep buttons and composers out of that corner, for example with `padding-bottom: 48px` on the view's outermost element. Put that padding on an element that does not scroll, with the scrolling area inside it; padding on a scrolling element lets content scroll under the pill. Do not bind Alt+Shift+D or open full-page modal dialogs or popovers over the pill.
