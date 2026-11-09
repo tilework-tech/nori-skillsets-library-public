@@ -54,20 +54,33 @@ nori-sessions views pull
 
 It sets up `~/org/workspace/my-view/` as a git repository with:
 
-- `nori-kit/`: the SDK types (`nori-view-sdk.d.ts`), the guide (`README.md`), the preview page, and fuller examples (`examples/grid-2x2.js`: panes, a picker, starting conversations, `nori.state`, conversation links in a focused pane; `examples/composer-desk.js`: one conversation laid out from a status badge, transcript, and composer), for the Nori version you publish to. Read the types and the guide before writing code; where they differ from this skill, the kit wins. Do not edit `nori-kit/`: `pull` refreshes it.
+- `nori-kit/`: the SDK types (`nori-view-sdk.d.ts`), the guide (`README.md`), the preview page, and reference views in `examples/` (see step 4), for the Nori version you publish to. Read the types and the guide before writing code; where they differ from this skill, the kit wins. Do not edit `nori-kit/`: `pull` refreshes it.
 - `src/view.js`: the view. The JSON `pull` prints says what it holds: `"viewSource": "active-view"` (the user's view), `"starter"` (a one-pane example to replace), or `"unchanged"` (your earlier edits).
 - `nori-view.json`: the name the view is published under.
 - `README.md`, `package.json`, `vite.config.js`, `index.html`: the build and preview template.
 
-To match the default Nori UI closely (its exact colours, spacing, and CSS custom properties, how it draws chats, markdown, and running states, or how it behaves on a phone), add `--with-ui-source`. It also lays down the default web UI's source in `nori-kit/reference/ui/` as a read-only reference (about 1 MB to download, 6 MB unpacked), and later pulls refresh it. Search it for what you need to match. Copy only presentational code from it (CSS, markup patterns, SVG icons, pure helpers that import nothing from the app); never import from it.
+To match the default Nori UI's look closely (its exact colours, spacing, and CSS custom properties, how it draws chats, markdown, and running states, or how it behaves on a phone), add `--with-ui-source`. It lays down the default web UI's source in `nori-kit/reference/ui/` as a read-only reference (about 1 MB to download, 6 MB unpacked), and later pulls refresh it. Search it only for what a first-party element does not already draw. Copy only presentational code from it (CSS, markup patterns, SVG icons, pure helpers that import nothing from the app); never import from it.
 
 If the directory already exists from earlier work, add `--force` only after checking `git status` there, so you do not overwrite uncommitted edits.
 
 If `pull` is not a command (`unknown command`), this machine's CLI is older than the custom views feature. Tell the user and stop.
 
-Edit the existing view when the user asks for a change to it. When they ask for something new, replace the starter with what they asked for; borrow patterns from `nori-kit/examples/` where they fit.
+Edit the existing view when the user asks for a change to it. When they ask for something new, start from the closest example in step 4.
 
 ## 4. Write the view
+
+Start from the closest reference view: copy it to `src/view.js`, then change it to what the user asked for. Each one already keeps the pill corner and Jiro's layer clear, shows a loading state at once, works on a phone, and cleans up.
+
+| The user asks for | Start from `nori-kit/examples/` | Built from |
+|---|---|---|
+| Several chats side by side (2x2, split screen) | `grid-2x2.js` | `<nori-chat>` panes, `<nori-conversation-list>` pickers, `nori.state`, links in the focused pane |
+| Sidebar, conversation, and a third column (projects, dashboard, notes) | `three-column.js` | `<nori-sidebar>`, `<nori-session-status>` + `<nori-transcript>` + `<nori-composer>`, `<nori-projects>` + `<nori-project-work>` |
+| A board or dashboard of what agents are doing | `kanban.js` | `nori.conversations.watchRunning` states (`idle` means waiting on the person), `<nori-markdown>` last lines, `<nori-chat>` panel |
+| Something compact or phone-first | `phone.js` | `<nori-sidebar>` drawer + `<nori-unread-badge>`, `<nori-chat>`, `<nori-new-chat>`, `<nori-projects>` |
+| One conversation with its pieces rearranged | `composer-desk.js` | `<nori-session-status>`, `<nori-transcript>`, `<nori-composer>` |
+| Anything else | the closest row above, or `src/view.js` (the starter) | the elements below |
+
+Use a first-party element wherever one fits, instead of drawing your own: `<nori-chat>` (a whole conversation), `<nori-conversation-list>` (pick one), `<nori-sidebar>` (the default sidebar, whole), `<nori-new-chat>` (start one with the agent and model pickers), `<nori-unread-badge>`, `<nori-projects>` and `<nori-project-work>`, `<nori-transcript>` / `<nori-composer>` / `<nori-session-status>` (one conversation in pieces), and `<nori-markdown>`. They match the default UI and keep up with it; hand-drawn copies do not. The kit's `README.md` lists each one's attributes and events. Draw your own markup only for layout and for what no element covers.
 
 Follow these rules. They are what keeps the user's browser safe and their way back intact.
 
@@ -75,19 +88,11 @@ Follow these rules. They are what keeps the user's browser safe and their way ba
 - Render only inside `el`. It sits in a shadow root and fills the whole window: give your outermost element `height: 100%`. Put styles in a `<style>` inside `el` and use the theme variables (`--background`, `--foreground`, `--surface`, `--border`, `--muted-foreground`, `--accent`, `--font-body`, `--font-mono`) so light and dark both work. Never touch `document` outside `el`.
 - Give every `<nori-chat>` a definite height: a child of a grid or flex container that has a height, in a `1fr` track (not `auto`), with `min-height: 0`. A chat in an `auto` row collapses to its header and composer.
 - Never disable, hide, or cover the way back to the default view: the "← Nori" pill, Alt+Shift+D, and `?view=default`. The pill sits in the bottom-right corner (12px in, about 90x30px): keep buttons and composers out of that corner, for example with `padding-bottom: 48px` on the view's outermost element. Put that padding on an element that does not scroll, with the scrolling area inside it; padding on a scrolling element lets content scroll under the pill. Do not bind Alt+Shift+D or open full-page modal dialogs or popovers over the pill.
-- Never cover or hide Jiro's onboarding layer. For a person in onboarding, Jiro's tours, morning day cards, and toasts lie over the view: keep the page's top layer clear (no popovers, modal dialogs, or fullscreen), keep the bottom-right corner clear (his tour panel sits above the pill), and never hide or restyle anything outside `el`. Where the view has its own link to automations, integrations, projects, or agents, set `data-nori-anchor` on it to the matching `nori.anchors` value so Jiro stands beside it (see the kit's `README.md`).
+- Never cover or hide Jiro's onboarding layer. For a person in onboarding, Jiro's tours, morning day cards, and toasts lie over the view: keep the page's top layer clear (no popovers, modal dialogs, or fullscreen), keep the bottom-right corner clear (his tour panel sits above the pill), and never hide or restyle anything outside `el`. Where the view has its own link to automations, integrations, projects, or agents, set `data-nori-anchor` on it to the matching `nori.anchors` value so Jiro stands beside it (see the kit's `README.md`). Put each anchor on one element that shows; when a narrow screen hides it, move the anchor to the control that shows instead (as `three-column.js` does).
 - Keep navigation inside the view (which pane or screen shows lives in your own variables and `nori.state`). Never call `history.pushState`/`replaceState` or change `location`. To show a conversation in the default Nori UI, call `nori.host.openConversation(id)`.
-- Keep the view usable on a phone. Collapse multi-column layouts to one column on narrow screens (a CSS media or container query), keep tap targets at least 40px, and never require a hover or a keyboard shortcut.
-- Use `<nori-chat transcript-id="...">` for a whole conversation. Never re-implement the chat protocol. It draws its own title header and composer; do not repeat the title above it.
-- Compose the first-party building blocks instead of rebuilding them. The kit's `README.md` documents each one's attributes and events:
-  - `<nori-chat transcript-id="...">`: one conversation, live or read only.
-  - `<nori-conversation-list>`: a list to pick a conversation from (`nori-select`).
-  - `<nori-sidebar selected="...">`: the default sidebar, whole: search, grouping, unread, pins, new chat, page links. It fires `nori-select`, `nori-new-conversation`, and `nori-open-page`, and never moves the page itself. On a phone it is a closed drawer: give the view a menu button that calls its `open()`.
-  - `<nori-new-chat>`: the default new-chat composer with the agent and model pickers. It fires `nori-select` with the new conversation's id; show that id in a `<nori-chat>`.
-  - `<nori-unread-badge>`: the unread conversation count, for your own button or heading.
-  - `<nori-projects>` (`nori-select-project`) and `<nori-project-work project-id="...">` (`nori-select` for a run's conversation): the person's projects and one project's work runs.
-  - `<nori-transcript>`, `<nori-composer>`, and `<nori-session-status>` (all `transcript-id="..."`): one conversation laid out in pieces. Give `<nori-transcript>` a height like `<nori-chat>`. Only one composer per page writes at a time, and `<nori-new-chat>` shares that slot: use one or the other.
-  - `<nori-markdown source="...">`: markdown text, such as a running conversation's `lastLine`.
+- Keep the view usable on a phone. Collapse multi-column layouts to one column on narrow screens (a CSS media or container query), keep tap targets at least 44px on every screen size (not only in the phone media query), and never require a hover or a keyboard shortcut.
+- Never re-implement the chat protocol. `<nori-chat>` draws its own title header and composer; do not repeat the title above it. Its "Open in Nori" button only fires `nori-open`: call `nori.host.openConversation(id)` from it. Give `<nori-transcript>` a height as you would `<nori-chat>`. Only one `<nori-composer>` or `<nori-new-chat>` per page writes at a time (a `<nori-chat>`'s own composer is not part of that): place one of them at a time.
+- `<nori-sidebar>` never moves the page: handle its `nori-select`, `nori-new-conversation`, and `nori-open-page` events. When the view shows that page itself (for example its own projects), call `preventDefault()` on `nori-open-page` and show it; otherwise the link leaves the view for the default UI. On a phone it is a closed drawer: give the view a menu button that calls its `open()`.
 - Draw a loading state into `el` at the start of `mount`, before awaiting anything. A view that shows nothing in its first 5 seconds, or takes over 20 seconds to load and mount, falls back to the default UI.
 - Return a cleanup from `mount` that removes every listener, timer, observer, and framework root the view created.
 - Keep per-mount state inside `mount`. The web UI imports each version once and reuses it, so state at module top level persists between mounts of the same version (after `openConversation` and Back, or a rollback to a version already shown).
