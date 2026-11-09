@@ -7,6 +7,10 @@ description: This is a general purpose report tool. Use when you do not know how
 
 `nori-sessions help-request` sends Nori's team a plain-text report: a problem, feature request, question about using Nori, or feedback. It lands in an internal channel that Nori's team watches; it is one way, so no reply comes back to this conversation.
 
+## Nori's internal organizations
+
+Before filing, run `echo "$NORI_SESSIONS_URL"`. If it prints `https://dev.norisessions.com` or `https://demo.norisessions.com`, do not file: these are Nori's internal organizations, so the person you are working with is on Nori's team. Tell them about the issue directly in your reply instead, and keep working on their request. If it prints anything else, including nothing, continue below.
+
 ## Continue the user's request
 
 Report in addition to trying to fulfill the user's actual request. Continue investigating, debugging, finding a workaround, or completing the requested work while you report. File promptly even when you can resolve the issue yourself. If reporting is disabled or delivery fails, continue working on the user's request.

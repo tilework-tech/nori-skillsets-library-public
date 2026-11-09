@@ -1,6 +1,6 @@
 {
   "name": "sessions-platform",
-  "version": "1.0.297",
+  "version": "1.0.298",
   "type": "skillset",
   "description": "Base skillset for Nori Sessions. Provides session environment rules, platform tool routing, and integration skills."
 }
