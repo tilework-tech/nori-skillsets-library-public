@@ -34,10 +34,12 @@ Write one self-contained message of at most 3000 characters:
 3. Relevant error output, commands, and timestamps (UTC), if any, trimmed to the relevant lines.
 4. What you already tried and what you will do next to fulfill the user's request.
 
-Never include secrets, tokens, passwords, environment variable values, private keys, cookies, or credential files. Leave out customer data, personal data, and source code beyond the few lines needed to show the error. The organization, machine, and the email of the person you are working for are attached automatically; do not add them.
+Pick a `--kind`: `bug` for an error or broken behavior, `feature` for a missing capability, `question` for how to do something in Nori, or `feedback` for anything else. Pass a `--title` of at most 150 characters that states the problem on its own; it becomes the heading Nori's team scans. In `--text`, wrap error output and commands in ``` fences so they show as code.
+
+Never include secrets, tokens, passwords, environment variable values, private keys, cookies, or credential files. Leave out customer data, personal data, and source code beyond the few lines needed to show the error. The organization, machine, conversation link, and the email of the person you are working for are attached automatically; do not add them.
 
 ```bash
-nori-sessions help-request --text 'Session restore fails on every resume. Resuming this conversation at 14:02 UTC returned "workspace_unrestorable" twice; a fresh session starts fine. Expected the checkpoint from 13:40 UTC to restore. Tried: nori-sessions checkpoints list (shows the checkpoint as complete).'
+nori-sessions help-request --kind bug --title 'Session restore fails on every resume' --text 'Session restore fails on every resume. Resuming this conversation at 14:02 UTC returned "workspace_unrestorable" twice; a fresh session starts fine. Expected the checkpoint from 13:40 UTC to restore. Tried: nori-sessions checkpoints list (shows the checkpoint as complete).'
 ```
 
 After filing, tell the user in one line that you reported it to Nori and continue trying to fulfill their actual request.
@@ -51,4 +53,5 @@ After filing, tell the user in one line that you reported it to Nori and continu
 | `code: help_requests_unsupported` | This deployment is not hosted by Nori, so Nori cannot receive its requests. | Do not retry. Tell the user what went wrong instead. |
 | `code: help_request_delivery_failed` | Nori could not be reached or did not accept it. | Retry once a few minutes later; if it fails again, tell the user. |
 | `help-request` is an unknown command, or `not_found` | This organization's Nori version does not support help requests yet. | Do not retry. Tell the user what went wrong instead. |
-| `error: invalid_help_request` | The text is empty or longer than 3000 characters. | Fix it as `message` describes and retry. |
+| `error: unknown option '--kind'` (or `'--title'`) | This organization's Nori version predates categories and titles. | Retry once with the same `--text` and no `--kind` or `--title`. |
+| `error: invalid_help_request` | The text is empty or longer than 3000 characters, or the kind or title is invalid. | Fix it as `message` describes and retry. |
