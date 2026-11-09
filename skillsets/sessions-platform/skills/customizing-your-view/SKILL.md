@@ -78,6 +78,13 @@ Follow these rules. They are what keeps the user's browser safe and their way ba
 - Keep navigation inside the view (which pane or screen shows lives in your own variables and `nori.state`). Never call `history.pushState`/`replaceState` or change `location`. To show a conversation in the default Nori UI, call `nori.host.openConversation(id)`.
 - Keep the view usable on a phone. Collapse multi-column layouts to one column on narrow screens (a CSS media or container query), keep tap targets at least 40px, and never require a hover or a keyboard shortcut.
 - Use `<nori-chat transcript-id="...">` for conversations. Never re-implement the chat protocol. It draws its own title header and composer; do not repeat the title above it.
+- Compose the first-party building blocks instead of rebuilding them. The kit's `README.md` documents each one's attributes and events:
+  - `<nori-chat transcript-id="...">`: one conversation, live or read only.
+  - `<nori-conversation-list>`: a list to pick a conversation from (`nori-select`).
+  - `<nori-sidebar selected="...">`: the default sidebar, whole: search, grouping, unread, pins, new chat, page links. It fires `nori-select`, `nori-new-conversation`, and `nori-open-page`, and never moves the page itself. On a phone it is a closed drawer: give the view a menu button that calls its `open()`.
+  - `<nori-new-chat>`: the default new-chat composer with the agent and model pickers. It fires `nori-select` with the new conversation's id; show that id in a `<nori-chat>`.
+  - `<nori-unread-badge>`: the unread conversation count, for your own button or heading.
+  - `<nori-projects>` (`nori-select-project`) and `<nori-project-work project-id="...">` (`nori-select` for a run's conversation): the person's projects and one project's work runs.
 - Draw a loading state into `el` at the start of `mount`, before awaiting anything. A view that shows nothing in its first 5 seconds, or takes over 20 seconds to load and mount, falls back to the default UI.
 - Return a cleanup from `mount` that removes every listener, timer, observer, and framework root the view created.
 - Keep per-mount state inside `mount`. The web UI imports each version once and reuses it, so state at module top level persists between mounts of the same version (after `openConversation` and Back, or a rollback to a version already shown).
