@@ -22,11 +22,11 @@ refusing to allow a GitHub App to create or update workflow `.github/workflows/<
 
 `nori-git publish` reports the same refusal as ``GitHub refused .github/workflows/<file>: this token lacks the `workflows` permission``. Before a plain `git push` of such a change, the pre-push hook warns ``nori-git: this push changes .github/workflows/<file>, which needs the `workflows` permission``; the push still runs, and GitHub decides.
 
-This is deliberate, not a broken install. A pushed workflow runs with the repository's secrets, so session git tokens never include the `workflows` permission by default. Reinstalling the app or editing its permissions on GitHub does not change this.
+This is deliberate, not a broken install. A pushed workflow runs with the repository's secrets, so only admin sessions (started by an admin or approved with `!admin`) can get the `workflows` permission. Reinstalling the app or editing its permissions on GitHub does not change this.
 
 To push the change:
 
-1. An org admin turns on **Allow admin sessions to administer GitHub repositories and the organization** on the Security page of the Nori dashboard. Without this setting, admin escalation does not add the permission.
+1. **Allow admin sessions to edit GitHub Actions workflows** must be on in the Security page of the Nori dashboard. It is on by default for organizations created after the setting was added; older organizations have it off until an org admin turns it on. Without this setting, admin escalation does not add the permission.
 2. The user replies `!admin` in the thread and an admin approves the request. You cannot trigger this yourself; ask and end your turn.
 3. Approval re-issues this session's git token with the elevated permissions, but an already-running shell may still hold the old one. Run `source "$HOME/.nori/env.d/github.sh"`, then retry the push.
 
