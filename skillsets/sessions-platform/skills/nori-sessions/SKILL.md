@@ -20,6 +20,8 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `onboarding` and `levelup` - first-run status, mark complete or skip, hand off provider credentials; the post-onboarding level-up flow
   - `triggers` and `webhook` - cron triggers and webhook triggers; `triggers create --deliver-to coordinator` wakes a project's coordinator on a schedule (see the `planning-project-heartbeats` skill)
   - `projects` - list, create, and read projects; delegate, message, stop, resume, and retry their work (`delegate|message|stop|resume|retry`, `work`, `held-work`); read and edit the project docs.md, which needs no approval (`docs get|save|history`); attach automations and chats (`triggers`, `chats`)
+  - `workers` - independent PR reviews on separate machines (`start|list|get|result|message|stop`), owned by the current conversation; use the reviewing-github-prs skill for fixed-commit and blind-review guidance
+  - `github-pr` - publish an explicitly requested fix to the current GitHub PR with its captured-head guard; run `github-pr publish --help` for required instruction evidence and supported file changes
   - `channels` - channel mode: bind a channel to a custom agent or a project coordinator (admin; differs from `projects channels`)
   - `custom-agents` and `agents` - named provider + model + skillset personas the org @-mentions in chat; which agents you can start a chat with and which harnesses the org supports
   - `access` - who may use each custom agent (`restrict`, `grants add|remove`), the chat access policy, and the access audit log; needs the org's access-control feature (otherwise `not_found`), admin, and for changes from a session an approved `!admin` request
