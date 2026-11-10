@@ -27,7 +27,7 @@ description: Use when opening a GitHub pull request or acting on GitHub for some
 
 # GitHub attribution (connected accounts)
 
-- Availability: the org needs Nori's `github-user-attribution` flag, and an org admin turns it on in Security settings → GitHub attribution, or with `nori-sessions fleet set-setup --github-user-attribution true`. Only admins can change it.
+- Availability: the org needs Nori's `github-user-attribution` flag, and an org admin turns it on in Security settings → GitHub, or with `nori-sessions fleet set-setup --github-user-attribution true`. Only admins can change it.
 - Connecting: the person opens `connectUrl` from `nori-sessions integrations github-user status` (the dashboard's Integrations → GitHub card) in a browser signed in to Nori and approves the GitHub consent screen. Their GitHub account must be able to reach the org's GitHub App installation; otherwise the connect is refused and nothing is stored.
 - The connection reaches sessions they start within moments. A shell opened earlier must re-read the env as above.
 - What it can do: whatever both the person and the Nori app may do on GitHub, on every repository the app is installed on that the person can reach. GitHub shows their avatar with the app badge.

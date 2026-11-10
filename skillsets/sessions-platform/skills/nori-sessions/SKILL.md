@@ -11,7 +11,7 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
 - Command areas:
   - `health`, `version`, `auth whoami` - Nori Sessions reachability (`health live|ready`), the running server version, and the identity this CLI calls as
   - `sessions` - list, start, release, resume, and hand off session machines; the web capacity queue (`queue`, `idle`, `end-idle`); per-session history, contributors, transcript, preview URL, and file `attach`/`download`
-  - `fleet` - inspect and update fleet setup (the org setup script and admin settings such as `set-setup --github-user-attribution`), machine sizes (`fleet sizes list|set`), the start queue, sandbox provider, and the org agent (`get-agent|set-agent`)
+  - `fleet` - inspect and update fleet setup (the org setup script and admin settings such as `set-setup --github-user-attribution` and `--github-signed-commits`), machine sizes (`fleet sizes list|set`), the start queue, sandbox provider, and the org agent (`get-agent|set-agent`)
   - `config` and `billing` - org provider/model settings and feature flags; plan, usage, and fleet capacity limits
   - `integrations` - provider and platform integrations, MCP servers, custom env vars (MCP/CLI connections and custom env vars take `--scope org|personal|agent`), credential health, and provider connect flows
     - `integrations github-user status` - whether the person you work for connected their GitHub account, with the `connectUrl` they open to connect it; connecting and disconnecting happen only in their browser (`github-user disconnect` is refused unless a person is signed in)
