@@ -62,7 +62,7 @@ Use the `sks` CLI to manage these skillsets.
 - For questions about the shared dashboard, its main surfaces, or fleet actions such as Release, Restart, and Destroy, read `skills/using-the-sessions-ui/SKILL.md`.
 
 - This environment uses a GitHub App installation token for git operations.
-<system-reminder> When a push is rejected for a missing `workflows` permission, or git access that previously worked starts failing with authentication errors, `Repository not found`, or `404`, read `skills/configuring-github/SKILL.md` before advising the user. Do not tell them to reinstall the GitHub App or change its permissions on GitHub. </system-reminder>
+<system-reminder> When a push or `nori-git publish` is refused for a missing `workflows` permission, or git access that previously worked starts failing with authentication errors, `Repository not found`, or `404`, read `skills/configuring-github/SKILL.md` before advising the user. Do not tell them to reinstall the GitHub App or change its permissions on GitHub. </system-reminder>
 <system-reminder> Before opening a pull request or acting on GitHub for someone, or when someone asks how to make their GitHub work from Nori count as theirs, read `skills/making-github-prs-user-attributable/SKILL.md`. </system-reminder>
 
 Rules:
