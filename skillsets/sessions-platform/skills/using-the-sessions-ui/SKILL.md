@@ -23,11 +23,11 @@ description: Use when explaining or reasoning about the Nori Sessions web UI, da
 
 | Action | Where | What it does |
 | --- | --- | --- |
-| Release / `!done` | Active chat or session command | Ends the claim, resets the session workspace, and returns clean capacity to the ready pool. |
-| Restart | Fleet row | Ends that live session, resets its workspace, and returns clean capacity to the ready pool. Depending on the fleet backend, the underlying machine may be reset or replaced. |
-| Destroy | Fleet row; Admin or Owner | Ends that live session and deletes the selected machine. Fleet replenishment provisions a replacement to maintain the configured fleet size. |
+| Release / `!done` | Active chat or session command | Ends the claim, freeing a running-conversation slot, and resets the machine into the warm pool (or deletes it when the pool is full). |
+| Restart | Fleet row | Ends that live session, freeing a running-conversation slot, and resets the machine into the warm pool (or deletes it when the pool is full). Depending on the fleet backend, the underlying machine may be reset or replaced. |
+| Destroy | Fleet row; Admin or Owner | Ends that live session and deletes the selected machine. Fleet replenishment keeps the warm pool at its configured size. |
 | Restart Fleet | Fleet toolbar; Admin or Owner | Deletes and reprovisions the whole fleet, including machines with live sessions. This interrupts all active work in the fleet. |
-| Restart Oldest Idle | Fleet toolbar | Finds the least recently active claimed-idle session, ends it, and returns clean capacity to the ready pool. It never selects a session that is actively working. |
+| Restart Oldest Idle | Fleet toolbar | Finds the least recently active claimed-idle session and ends it, freeing a running-conversation slot. It never selects a session that is actively working. |
 | New Session | Fleet toolbar | Claims ready capacity for a new web session. If none is ready, the request waits for capacity rather than reusing an active session. |
 
 Restart and Destroy both end the current live session and do not preserve its current machine workspace. The practical distinction is capacity lifecycle: Restart resets and returns capacity; Destroy deletes that machine and fleet replenishment creates a replacement. Durable conversation history, captured checkpoints, and externally stored changes are separate from the ephemeral machine workspace.
