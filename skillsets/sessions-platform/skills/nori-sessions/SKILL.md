@@ -19,7 +19,7 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `vault` - read provider credentials session machines pull (`codex-token`)
   - `onboarding` and `levelup` - first-run status, mark complete or skip, hand off provider credentials; the post-onboarding level-up flow
   - `triggers` and `webhook` - cron triggers and webhook triggers; `triggers create --deliver-to coordinator` wakes a project's coordinator on a schedule (see the `planning-project-heartbeats` skill)
-  - `projects` - list, create, and read projects; delegate, message, stop, resume, and retry their work (`delegate|message|stop|resume|retry`, `work`, `held-work`); read and edit the project docs.md, which needs no approval (`docs get|save|history`); attach automations and chats (`triggers`, `chats`)
+  - `projects` - list, create, and read projects; delegate, message, stop, resume, and retry their work (`delegate|message|stop|resume|retry`, `work`, `held-work`); read and edit the project docs.md, which needs no approval (`docs get|save|history`); inspect a bounded excerpt (`docs preview --project <id> [--revision N]`); attach automations and chats (`triggers`, `chats`)
   - `workers` - independent PR reviews on separate machines (`start|list|get|result|message|stop`), owned by the current conversation; use the reviewing-github-prs skill for fixed-commit and blind-review guidance
   - `github-pr` - publish an explicitly requested fix to the current GitHub PR with its captured-head guard; run `github-pr publish --help` for required instruction evidence and supported file changes
   - `channels` - channel mode: bind a channel to a custom agent or a project coordinator (admin; differs from `projects channels`)
@@ -39,6 +39,22 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `e2e` - end-to-end testing utilities
 - To link the user to this chat in the dashboard, run `nori-sessions transcripts resolve-session --self` and post `$NORI_SESSIONS_URL/chat/<transcriptId>` with both parts resolved.
 - To shut yourself down when the user asks you to stop, end, or turn yourself off, run `nori-sessions sessions release --self --reason agent_requested`. In Slack, web chat, and the Nori CLI, Nori Sessions waits for your current reply to reach the user, then releases the machine and marks the conversation ended; in Discord the release happens immediately. Always pass `--reason`; a bare release tears the machine down mid-turn and drops your answer.
+
+## Project docs links
+
+Project docs and references share the projectâ€™s `docs.md`; do not create a
+separate references store. Run `nori-sessions projects docs get --project <id>`
+and use its returned revision when linking the content you read:
+`$NORI_SESSIONS_URL/projects/<id>?details=docs&revision=<revision>`. A revision
+returned by `projects docs save` may also be linked. Resolve the dashboard URL
+and quote the complete URL in shell commands so `&` is preserved.
+`projects docs preview --project <id> [--revision N]` returns a bounded JSON
+excerpt; use `docs get` when the task requires reading the full document.
+
+A revision link opens that immutable revision, with a docs preview in web chat
+and a compact Slack excerpt when the audience is authorized. Use
+`?details=docs` without `revision` only for an intentionally mutable latest-docs
+link. Keep `/projects/<id>` for the generic project card.
 
 ## Custom agents
 
