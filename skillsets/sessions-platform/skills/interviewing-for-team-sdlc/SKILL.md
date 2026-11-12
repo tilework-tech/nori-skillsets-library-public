@@ -1,6 +1,6 @@
 ---
 name: interviewing-for-team-sdlc
-description: Use when Nori opens an onboarding conversation (a thread in the organization's Slack onboarding channel, or a web conversation when there is no Slack) to learn how the team builds and ships software - research the repos silently, interview the owner and admins one question at a time, confirm a recap, then save the confirmed process for future sessions.
+description: Use when Nori opens an onboarding conversation (a thread in the organization's Slack onboarding channel, or a web conversation when there is no Slack) to learn how the team builds and ships software - research the repos silently and save what they show, interview the owner and admins one question at a time, then save the recap for future sessions.
 ---
 
 # Interviewing the Owner About How the Team Ships
@@ -29,8 +29,8 @@ Add these to your TODO list:
 1. Preflight: check what is already known (section 1).
 2. Research the repos silently before your first message (section 2).
 3. Interview one question at a time (section 3).
-4. Recap in plain language and get an explicit yes (section 5).
-5. Save only what the owner or an admin confirmed (section 6).
+4. Recap in plain language and ask for corrections (section 5).
+5. Save the research draft, the recap, and every correction (section 6).
 6. Close the conversation and release this machine (section 7).
 </required>
 
@@ -51,9 +51,9 @@ Add these to your TODO list:
 - **Offer competing options, not yes/no.** "Is it X?" invites a reflexive
   yes. Give the realistic alternatives. Always include an escape:
   "Something else" and "Skip".
-- **Respect their time.** Aim for 8–10 core questions. If you want to go
-  further, ask first. If they say "later" or "stop", or go quiet, stop asking.
-  They can pick it back up by replying in this conversation any time.
+- **Respect their time.** Ask at most 8 core questions. If you want to go
+  further, ask first. If they say "later" or "stop", stop asking and go to
+  section 5.
 - **Address the owner by name.** The admins share this conversation. Address
   the owner in your first question (section 3) and tag them in Slack, so they
   know it is theirs to answer. Count answers from other admins the same as the
@@ -62,16 +62,17 @@ Add these to your TODO list:
   owner seems to be answering somewhere else, ask them once to reply here so
   you keep the context.
 - **Never guess on their behalf.** If they do not answer a gap, leave it as a
-  gap. Save nothing until they confirm the recap in section 5.
+  gap. Save only what the repos show or the team told you.
 
 <good-example>
 Looks like almost everything lands on `main` as a squash merge (412 of the
-last 430 PRs), with a required `ci` check. Which matches how you work?
+last 430 PRs), with a required `ci` check.
 
-A) Squash-merge to `main` is the only path
-B) Mostly, but hotfixes go another way
-C) Something else
-D) Skip
+*Which matches how you work?*
+1. Squash-merge to `main` is the only path
+2. Mostly, but hotfixes go another way
+3. Something else
+4. Skip
 </good-example>
 
 <bad-example>
@@ -91,15 +92,10 @@ ls ~/org/sessions/skills 2>/dev/null
 If memories are unavailable, continue. You will not save repo-specific facts
 this time (section 4).
 
-In Slack, find the owner and tag them. Take the email of the user with the
-`owner` role. Look up their Slack user id. Mention them as `<@USER_ID>`. If
-either lookup fails, address "the owner" without a tag. On the web, skip the
-Slack lookup and address the owner by name.
-
-```bash
-nori-sessions users list
-nori-slack users.lookupByEmail --email '<owner email>'
-```
+In Slack, a note in this run's instructions names the owner, who signed up,
+as `<@USER_ID>`. Tag them. If there is no such note, greet the team, and never
+say you could not find the owner. On the web, address the owner by name
+(`nori-sessions users list`).
 
 ## 2. Research silently
 
@@ -157,7 +153,9 @@ obviously abandoned ones, and say so in your notes.
    PR titles first) and shared docs. Read them. Never write to them.
 
 Spend roughly ten minutes. Nori told the owner "a few minutes". Start the
-conversation with good coverage. Do not wait for perfect coverage.
+conversation with good coverage. Do not wait for perfect coverage. Before your
+first question, save the **known** items and well-supported inferences as a
+draft (section 6), so a team that never answers still gets them.
 
 ## 3. Interview
 
@@ -185,12 +183,12 @@ How to run it:
   anything surprising ("you said hotfixes skip review; who's allowed to do
   that?"). Update your notes after every reply.
 - **Format**: give one or two lines of context with the evidence, then the
-  question, then lettered options. Keep each message under about 600
-  characters.
-- **Progress**: now and then, say roughly how much is left ("two more on
-  deploys and we're done").
+  question in bold (`*like this*` in Slack), then the options as a numbered
+  list, one per line. Keep each message under about 600 characters.
+- **Progress**: give the total in your first question and the count left in
+  each one after ("4 more after this"), and offer to skip to the recap.
 
-## 4. Route each confirmed fact
+## 4. Route each fact
 
 Decide where each fact belongs. Never explain this to the owner.
 
@@ -201,20 +199,21 @@ Decide where each fact belongs. Never explain this to the owner.
 - **About one person** ("Alex always reviews infra"): save it only if the
   owner describes it as a rule of the team. Write the rule ("infra changes
   need an infra-owner review"), not the person.
-- **Weak, one-off, or unconfirmed**: drop it.
+- **Weak, one-off, or contradicted**: drop it.
 
-## 5. Recap and confirm
+## 5. Recap
 
-When you have covered the stages, or the owner wants to stop, send one recap.
-Write it in plain language, grouped by stage, in short bullets, with no file
-names or formats. End with:
+When you have covered the stages, or the owner wants to stop, save one recap
+(section 6), then send it. Write it in plain language, grouped by stage, in
+short bullets, with no file names or formats. Keep the specifics of each answer
+(who, which tool, under what condition). "Development skillsets use subagents
+to update docs.md" must not become "every change updates docs.md". End with:
 
-> Anything wrong or missing before I save this so future work follows it?
+> I've saved this so future work follows it. Anything wrong or missing?
 
-Apply corrections. Re-confirm anything that changed. Save nothing without an
-explicit yes. If they decline, thank them and go to section 7.
+Save each correction the same way. If they ask you to drop something, remove it.
 
-## 6. Save what was confirmed
+## 6. Save
 
 Bring your copy of the organization's instructions up to date first. Another
 conversation may have saved to them since this machine started. Run this
@@ -233,7 +232,7 @@ sks download "$NORI_ORG/sessions" --non-interactive
 If any step fails, stop and say in one sentence that saving failed. Never edit
 a copy you could not refresh.
 
-Save repository-specific facts as one memory each:
+Save repository-specific facts the team told you as one memory each:
 
 ```bash
 nori-sessions memories search --query '<the fact>' --repo 'github.com/OWNER/REPO' --limit 3
@@ -254,7 +253,7 @@ rewrite existing files:
 - Add a short "How this team ships" section to `AGENTS.md` with the rules
   every session must follow (merge path, required review, who deploys and
   how, what must never happen).
-- For each repeatable procedure the owner described (for example "shipping
+- For each repeatable procedure the team described (for example "shipping
   a change" or "cutting a release"), add one skill under
   `skills/<verb-ing-noun>/SKILL.md` in the canonical format: frontmatter
   `name` plus a `description` that starts "Use when", a `<required>`
@@ -262,10 +261,12 @@ rewrite existing files:
   blocks where the distinction matters.
 
 Then follow the `maintaining-org-skillset` skill to validate and upload.
-This conversation runs with admin access. The owner's or an admin's "yes" in
-section 5 is the approval. If the upload is refused anyway, tell the owner in
-one sentence that saving needs an admin. Do not retry with other credentials.
-Go to section 7.
+After your first save, mark this conversation finished so the next onboarding
+conversation can start: `nori-sessions triggers managed finish --key
+sdlc-codebase-understanding`. Then carry on from where you saved. This
+conversation runs with admin access and needs no separate approval. If the
+upload is refused anyway, tell the owner in one sentence that saving needs an
+admin, do not retry with other credentials, and go to section 7.
 
 ## 7. Close and release this machine
 
@@ -274,7 +275,8 @@ work will now do differently ("PRs will squash-merge to `main` and
 wait for the `ci` check; deploys go through the Release workflow, never by
 hand"). Say they can correct anything by replying in this conversation.
 
-Then release this machine back to the pool:
+Then, if you never saved, mark this conversation finished (section 6) and
+release this machine back to the pool:
 
 ```bash
 nori-sessions sessions release --self --reason agent_requested
@@ -289,4 +291,5 @@ you to stop. If someone replies later, the conversation picks back up.
   memories, or the skillset.
 - Only read repositories. Never push, open PRs, comment on PRs or tickets, or
   change repository settings.
-- Never create, edit, or delete automations, projects, or project docs.
+- Never create, edit, or delete automations, projects, or project docs, apart
+  from marking this conversation finished.

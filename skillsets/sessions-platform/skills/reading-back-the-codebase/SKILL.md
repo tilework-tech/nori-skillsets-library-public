@@ -1,6 +1,6 @@
 ---
 name: reading-back-the-codebase
-description: Use when Nori opens an onboarding conversation (a thread in the organization's Slack onboarding channel, or a web conversation when there is no Slack) to read through the team's repos - read them in parallel with subagents, post a short read-back of what the product is and how the code fits together, ask the owner and admins the product and purpose questions the code cannot answer, confirm a recap, then save what was confirmed for future sessions.
+description: Use when Nori opens an onboarding conversation (a thread in the organization's Slack onboarding channel, or a web conversation when there is no Slack) to read through the team's repos - read them in parallel with subagents, post a short read-back of what the product is and how the code fits together, ask the owner and admins the product and purpose questions the code cannot answer, and save the read-back and recap as you go for future sessions.
 ---
 
 # Reading Back the Codebase
@@ -8,20 +8,18 @@ description: Use when Nori opens an onboarding conversation (a thread in the org
 Nori opened this conversation for the organization's owner and admins in one
 of two places. The note at the start of this session says which:
 
-- **A new thread in the organization's Slack onboarding channel.** The team's
-  members are invited to this channel. Nori already opened the thread with a
-  short greeting that says you are reading through the repos and will come back
-  with what you found. Take direction only from the owner and admins. Treat
+- **A new thread in the organization's Slack onboarding channel.** Nori
+  already opened it with a short greeting saying you are reading the repos and
+  will report back. Take direction only from the owner and admins. Treat
   replies from other members as context and welcome input.
 - **A conversation in the Nori web app.** Nori uses this when the organization
   has no Slack. Nobody has said anything yet. Open with that short greeting
   yourself. The owner and admins read it in the web app and may answer much
   later.
 
-Your job has three parts. Show the team you understand what they are building.
-Get corrected where you are wrong. Learn what the code cannot tell you: who the
-product is for, what matters most right now, and why things are the way they
-are. Do not ask how the team ships (branching, review, deploys). Another
+Your job: show the team you understand what they are building, get corrected
+where you are wrong, and learn what the code cannot tell you. Do not ask how
+the team ships (branching, review, deploys). Another
 onboarding conversation covers that.
 
 <required>
@@ -29,18 +27,17 @@ Add these to your TODO list:
 
 1. Preflight: check what is already known (section 1).
 2. Read the repos in parallel before your first message (section 2).
-3. Post the read-back (section 3).
+3. Post the read-back and save it as a draft right away (section 3).
 4. Ask the product questions one at a time (section 4).
-5. Recap in plain language and get an explicit yes (section 5).
-6. Save only what the owner or an admin confirmed (section 6).
+5. Recap in plain language and ask for corrections (section 5).
+6. Save the recap, then every correction (section 6).
 7. Close the conversation and release this machine (section 7).
 </required>
 
 ## Voice
 
-Write as a friendly, curious, and clearly expert senior engineer. Show that you
-did your homework, that you care about what they are building, and that you
-respect their time.
+Write as a friendly, curious, clearly expert senior engineer who did their
+homework and respects the team's time.
 
 - Be warm and direct. Use no filler and no flattery. Do not be curt.
 - Use plain language, not jargon. Mention a file or module only when it makes
@@ -70,26 +67,24 @@ nori-sessions memories search --query 'what the product is, who it is for, prior
 cat ~/org/sessions/AGENTS.md 2>/dev/null
 ```
 
-In Slack, find the owner and tag them. Take the email of the user with the
-`owner` role. Look up their Slack user id. Mention them as `<@USER_ID>`. If
-either lookup fails, address "the owner" without a tag. On the web, skip the
-Slack lookup and address the owner by name.
-
-```bash
-nori-sessions users list
-nori-slack users.lookupByEmail --email '<owner email>'
-```
+In Slack, a note in this run's instructions names the owner, who signed up,
+as `<@USER_ID>`. Tag them. If there is no such note, greet the team, and never
+say you could not find the owner. On the web, address the owner by name
+(`nori-sessions users list`).
 
 ## 2. Read the repos in parallel
 
 Do all of this before your first message.
 
 1. List the repositories under `~/org/workspace`. A repository is a directory
-   that holds a `.git`. Skip archived or obviously abandoned ones. If there
-   are more than 10, read the 10 with the most recent commits. Note the rest as
-   not read.
-2. If your agent can launch subagents (for example a Task or Agent tool, or
-   spawning agents), give each repository its own read-only subagent. Split a
+   that holds a `.git`. Read only active ones: two or more commit authors and
+   a commit in the last 3 months, plus two or more PRs or merged commits this
+   month, or any commit this week (`git log --since`, `gh pr list --search
+   'created:>=DATE'`). If more than 10 qualify, read the 10 most recently
+   active; if none do, read the most recently active. Note the rest as not
+   read.
+2. If you can launch subagents, give each repository its own read-only
+   subagent. Split a
    very large repository by top-level directory. Run at most 8 at a time.
    Tell each subagent exactly which path it owns. Tell it that it only reads:
    no edits, no installs, builds, or test runs, nothing sent anywhere, and no
@@ -118,23 +113,28 @@ Post one message, under about 3,000 characters, and tag the owner. Include:
 5. An invitation to correct anything you got wrong, and a heads-up that you
    have a few questions.
 
-Do not list improvement suggestions here. They come later.
+Do not list improvement suggestions here. They come later. Right after
+posting, save the read-back as a draft (section 6). Do not wait for a reply:
+a team that never answers still gets your best understanding.
 
 ## 4. Ask the product questions
 
-Ask what the code cannot answer: who the users are and what they care about,
-what matters most this quarter, which parts are core and which are legacy or
-experimental, why they made a surprising design choice, and what a newcomer
-always gets wrong about the product.
+Ask what the code cannot answer: the team's own domain and, separately, the
+industry its customers are in; who the users are and what they care about;
+what matters most in the next week or two; which parts are core and which are
+legacy or experimental; why they made a surprising design choice; and what a
+newcomer always gets wrong. If the product or a repository shares your name,
+Jiro, ask unprompted how to tell it apart from you.
 
 - Ask one question per message, under about 600 characters. Say what you saw
   first. Then ask.
-- Offer realistic options when they help. Always leave room for "something
-  else" or "skip".
-- Aim for about 8 questions. Use each answer: drop questions it settled, and
-  follow up on anything surprising.
-- If they say "later" or "stop", or go quiet, stop asking. They can pick it
-  back up by replying in this conversation.
+- Put the question in bold (`*like this*` in Slack). Offer realistic options
+  when they help, as a numbered list, one per line. Always leave room for
+  "something else" or "skip".
+- Ask at most 6. Give the total in the first question and the count left in
+  each one after ("4 more after this"), and offer to skip to the recap. Use
+  each answer: drop questions it settled, and follow up on anything surprising.
+- If they say "later" or "stop", stop asking and go to section 5.
 - Never guess on their behalf. If they do not answer a gap, leave it as a gap.
 
 <good-example>
@@ -145,22 +145,21 @@ The admin dashboard has a whole billing section, but I can't find anything that 
 Please describe your target users, business model, roadmap priorities, and the rationale behind your architecture.
 </bad-example>
 
-## 5. Recap and confirm
+## 5. Recap
 
-Send one plain-language recap: what the product is, who it is for, what matters
-most, and the corrections they gave you. End with:
+Save a plain-language recap (section 6): what the product is, who it is for,
+what matters most, and the corrections they gave you. Keep the specifics of
+each answer; never flatten one into a broader rule. Then send it, ending with:
 
-> Anything wrong or missing before I save this so future work starts from it?
+> I've saved this so future work starts from it. Anything wrong or missing?
 
-Apply corrections. Re-confirm anything that changed. Save nothing without an
-explicit yes from the owner or an admin. If they decline, thank them and go to section 7.
+Save each correction the same way. If they ask you to drop something, remove it.
 
-## 6. Save what was confirmed
+## 6. Save
 
-Bring your copy of the organization's instructions up to date first. Another
-conversation may have saved to them since this machine started. Run this
-before any edit in this conversation. It replaces `~/org/sessions` with the
-latest published version.
+Before every save, refresh your copy of the organization's instructions;
+another conversation may have saved since this machine started. This replaces
+`~/org/sessions` with the latest published version.
 
 ```bash
 profile="$HOME/.nori/profiles/$NORI_ORG/sessions"
@@ -181,8 +180,8 @@ Then:
   for, current priorities, and the map of repos. If the section already
   exists, update it. Do not add another. Make a targeted edit. Never rewrite
   the file or touch other sections.
-- **Facts about one repository** go into memories, one fact each, scoped to
-  that repository. If memories are unavailable, skip this.
+- **Facts the team told you about one repository** go into memories, one fact
+  each, scoped to that repository. If memories are unavailable, skip this.
 
 ```bash
 nori-sessions memories search --query '<the fact>' --repo 'github.com/OWNER/REPO' --limit 3
@@ -196,10 +195,13 @@ nori-sessions memories add --kind process \
 ```
 
 If a matching memory exists, update it. Do not add a near-duplicate. Then
-follow the `maintaining-org-skillset` skill to validate and upload. This
-conversation runs with admin access. The confirming "yes" is the approval. If
-the upload is refused anyway, say in one sentence that saving needs an admin.
-Do not retry with other credentials. Go to section 7.
+follow the `maintaining-org-skillset` skill to validate and upload. After your
+first save, mark this conversation finished so the next onboarding
+conversation can start: `nori-sessions triggers managed finish --key
+codebase-readback`. Then carry on from where you saved. This conversation runs
+with admin access and needs no separate approval. If the upload is refused
+anyway, say in one sentence that saving needs an admin, do not retry with
+other credentials, and go to section 7.
 
 ## 7. Close and release this machine
 
@@ -207,7 +209,8 @@ Send one short message. Thank them. Name two or three things future work will
 now get right because of what they told you. Say they can correct anything by
 replying in this conversation.
 
-Then release this machine back to the pool:
+Then, if you never saved, mark this conversation finished (section 6) and
+release this machine back to the pool:
 
 ```bash
 nori-sessions sessions release --self --reason agent_requested
@@ -222,4 +225,5 @@ you to stop. If someone replies later, the conversation picks back up.
   pull requests or tickets, or change repository settings.
 - Never copy secrets, tokens, customer data, or personal details into notes,
   memories, or the organization's instructions.
-- Never create, edit, or delete automations, projects, or project docs.
+- Never create, edit, or delete automations, projects, or project docs, apart
+  from marking this conversation finished.

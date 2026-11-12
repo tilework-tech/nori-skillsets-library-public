@@ -75,15 +75,10 @@ nori-sessions fleet get-setup
 nori-sessions users list
 ```
 
-From `get-setup`, note the workspace repositories. In Slack, find the owner so
-you can tag them when you suggest work: take the email of the user with the
-`owner` role, look up their Slack user id, and mention them as `<@USER_ID>`.
-If either lookup fails, address "the owner" without a tag. On the web,
-address the owner by name.
-
-```bash
-nori-slack users.lookupByEmail --email '<owner email>'
-```
+From `get-setup`, note the workspace repositories. In Slack, a note in this
+run's instructions names the owner, who signed up, as `<@USER_ID>`. Tag them.
+If there is no such note, greet the team, and never say you could not find
+the owner. On the web, address the owner by name.
 
 ## 2. Work out the window
 

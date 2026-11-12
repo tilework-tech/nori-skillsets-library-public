@@ -56,13 +56,9 @@ repositories (`repos`), and whether it posts to Slack (`postsToSlack`). From
 `skillImprovementChannelId`. That is where the weekly review of how sessions
 went posts its suggestions for admins to approve.
 
-Find the owner so you can tag them. Take the email of the user with the
-`owner` role, then look up their Slack user id, and mention them as
-`<@USER_ID>`. If either lookup fails, address "the owner" without a tag.
-
-```bash
-nori-slack users.lookupByEmail --email '<owner email>'
-```
+A note in this run's instructions names the owner, who signed up, as
+`<@USER_ID>`. Tag them. If there is no such note, greet the team, and never
+say you could not find the owner.
 
 Pick a channel to suggest for regular updates. Choose a long-lived engineering
 channel the team already uses. Never choose this onboarding channel or a
