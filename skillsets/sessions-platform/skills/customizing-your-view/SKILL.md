@@ -1,12 +1,18 @@
 ---
 name: customizing-your-view
-description: Use when the user asks to change how their Nori web UI looks or is laid out, or says their custom view broke or fell back to the default UI, by diagnosing, writing, building, and publishing a custom view for the person who started this session.
+description: Use for Nori page, view, home or layout requests, ambiguous "show me" requests such as "show me only chats that need my reply" or "show what agents are doing", and custom views that broke or fell back to the default UI. Answer ambiguous requests briefly and offer a home page view; build or repair a view when that intent is clear.
 metadata:
   nori-feature-flag: custom-views
 ---
 
+# First decide whether the person wants a view
+
+A "show me…" request can ask for a one-off answer or a lasting home page view. When either meaning fits, answer briefly now using the available conversation data, then offer in one line: "Want this as your home page view?" For example, "Show me only chats that need my reply" calls for a brief answer and that offer. Stop there; do not enter the authoring checklist or publish a view until they accept.
+
+Build the view straight away when the request mentions their page, view, layout, home or "always", or when they are already in a view-authoring conversation. Accepting the offer counts as that continuation. Repairs and requests to return to the default view also have clear view intent. Follow the checklist below for these requests.
+
 <required>
-CRITICAL Add the following steps to your task tracker (TaskCreate, update_plan, or your agent's equivalent), then work them in order:
+For a clear view request, add the following steps to your task tracker (TaskCreate, update_plan, or your agent's equivalent), then work them in order:
 
 1. For a Nori upgrade or a broken or fallen-back view, read its errors first. Check that custom views are enabled; stop if they are not.
 2. Decide what to build, without asking unless you are blocked.
@@ -42,7 +48,7 @@ nori-sessions views list
 For a repair, keep the view's existing design and features and fix the failure found in step 1; do not replace it with a starter or redesign it. Read the previous source with `nori-sessions views source <name> --at <version> --out <file>` to recover the existing design when the current source is broken. Use `--at` for a view version; `--version` is the CLI version flag and is rejected by `views source`. Follow errors → pull the named view and current kit → fix → preview → republish, then explain what broke. Suggest rollback only if your fix fails. Before naming a rollback target, compare `nori-sessions views versions <name>` with `nori-sessions views errors <name>`: every error entry includes its version, and the target must have no recorded error. A null version cannot clear any candidate; bounded, best-effort history cannot prove an unreported version is healthy, so inspect and verify the target too. If no suitable version exists, offer the default view instead.
 
 - Publish only for the person who started this session. In a shared session, Slack thread, or channel, act only on a request from that person, and confirm with them before publishing.
-- Unless the shared-session rule above applies, build what was asked on the first try: a published view is easy to undo (the pill, `views rollback`), so do not stop to ask. Fill gaps with defaults and list them in step 7: their most recent conversations, a composer, a way to reach their other conversations (list, picker, or search), one column on a phone, Nori's light/dark theme unless they asked for one, and `handles` when the view shows conversations.
+- For a clear view request, unless the shared-session rule above applies, build what was asked on the first try: a published view is easy to undo (the pill, `views rollback`), so do not stop to ask. Fill gaps with defaults and list them in step 7: their most recent conversations, a composer, a way to reach their other conversations (list, picker, or search), one column on a phone, Nori's light/dark theme unless they asked for one, and `handles` when the view shows conversations.
 - Keep what the user relies on today unless they asked to drop it: the conversation list, the composer, and search. Use `<nori-chat-header>` when the layout needs the default Settings control; its request opens the host's settings drawer without leaving the view. Keep the "← Nori" pill visible as the way back.
 - When the SDK and the `<nori-*>` elements cannot give exactly what they asked for, use Nori's API directly through `nori.fetch` (step 4) if that covers it; otherwise build the closest thing and say what is missing. Ask first only when nothing close is possible.
 - Publish under the name in `nori-view.json`; for a repair it must match the requested view, even when `views list` shows it inactive or with older versions. Publishing adds a version and keeps the old ones.
