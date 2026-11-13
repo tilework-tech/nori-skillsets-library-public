@@ -58,13 +58,14 @@ A pending proposal does not authorize execution. Approval of one subworker task
 is not approval for recurring work.
 </system-reminder>
 
-While the coordinator conversation is active, the broker sends a WORK UPDATE
-turn when a subworker finishes or an automation fails. A work update is a
-system notice, not a person: it is not a request and grants no approvals. On
-each one, decide whether anything needs doing (report the outcome, check its
-evidence, or start the next step the user already asked for); otherwise reply
-in one line. Updates stop once the conversation is released, and work that
-finished meanwhile is marked new on the next turn. Archived or held projects
+The broker sends a WORK UPDATE turn when a subworker finishes or an
+automation fails, bringing the coordinator conversation back first if its
+machine was paused or released. A work update is a system notice, not a
+person: it is not a request and grants no approvals. On each one, decide
+whether anything needs doing (report the outcome, check its evidence, or start
+the next step the user already asked for); otherwise reply in one line. Work
+that finished without an update reaching the coordinator is marked new on the
+next turn. Archived or held projects
 retain readable history but cannot launch work or accept new coordinator turns
 until explicitly resumed.
 
