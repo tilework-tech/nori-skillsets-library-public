@@ -28,7 +28,7 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `skillsets`, `skill-improvement`, `skillset-changes` - browse skillsets and the skills a session would install; read transcripts for a skill-improvement review and submit, approve, or reject proposed org skillset changes (approval is an admin's decision)
   - `scripts` - setup scripts and their versions
   - `checkpoint` - create or apply workspace checkpoint bundles
-  - `transcripts` - list, summarize, and read conversations; `list` takes `--scope mine|authored|unread|all` or `--project <id>` (not both), plus `--archived` and `--cursor`; also pin, follow, rename, archive, and resume them
+  - `transcripts` - list, summarize, and read conversations; `list` takes `--scope mine|authored|unread|all` or `--project <id>` (not both), plus `--archived` and `--cursor`; also pin, follow, rename, archive, and resume them; prompt another conversation, cancel its running turn, and manage its queued messages (`prompt|cancel`, `queue list|edit|remove`; see Acting in other chats)
   - `multiplex` - live conversations side by side; `multiplex watch` reads the live feed for a bounded time (`--max-events`, `--timeout-ms`)
   - `stats` and `logs` - session statistics; `logs query --query <LogsQL> [--start --end --limit]` reads this org's service logs; see the `fixing-unspecified-platform-problems` skill for how to triage them
   - `memories` - search, save, revise, or delete reusable knowledge; read `{{skills_dir}}/using-session-memories/SKILL.md` for capture and retrieval guidance
@@ -39,6 +39,36 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `e2e` - end-to-end testing utilities
 - To link the user to this chat in the dashboard, run `nori-sessions transcripts resolve-session --self` and post `$NORI_SESSIONS_URL/chat/<transcriptId>` with both parts resolved.
 - To shut yourself down when the user asks you to stop, end, or turn yourself off, run `nori-sessions sessions release --self --reason agent_requested`. In Slack, web chat, and the Nori CLI, Nori Sessions waits for your current reply to reach the user, then releases the machine and marks the conversation ended; in Discord the release happens immediately. Always pass `--reason`; a bare release tears the machine down mid-turn and drops your answer.
+
+## Acting in other chats
+
+You can start, prompt, and steer other chats as the person you work for (the
+latest person to write to you, else whoever started your session). They are shown as sent "via a session agent"
+(`Agent`), and you get no more access than that person and your session
+credential both allow.
+
+- Start a chat: `sessions acquire` (a new chat; resume and purpose sessions
+  need a person), or `sessions queue --draft-id <id> --prompt <text>` when the
+  fleet is full.
+- Prompt a chat: `transcripts prompt --id <id> --prompt <text>`. It answers
+  `started`, `queued`, or `waiting_for_machine`. While a turn runs it is
+  refused with `turn_in_flight`; add `--queue` to run after that turn. The
+  command does not wait for the reply; read it with `transcripts get --id <id>`.
+- Stop a turn: `transcripts cancel --id <id>` (`no_turn` when nothing runs).
+- Queued messages: `transcripts queue list --id <id>`, then
+  `queue edit|remove --id <id> --message-id <clientMessageId>`. You may change
+  only messages a session agent queued, never ones the person typed
+  (`not_sender`). Queues need the org's message-queue feature
+  (`queue_unavailable` otherwise).
+
+Limits, each refused with its `code`:
+
+- You cannot act on your own conversation (`own_conversation`).
+- In a chat another session agent started, you cannot start or act in other
+  chats (`nested_agent_chat`); ask the person to do it.
+- One machine may start at most 10 chats (`agent_chat_rate_limited`) and send
+  at most 30 prompts (`agent_prompt_rate_limited`) per rolling hour. Refused
+  requests do not count. Wait rather than retrying in a loop.
 
 ## Project docs links
 
