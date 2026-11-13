@@ -6,7 +6,8 @@ description: Use when installing, verifying, or troubleshooting the Nori GitHub 
 <required>
 CRITICAL Add the following steps to your Todo list using TodoWrite:
 
-- Get the install URL from `nori-sessions onboarding status` (the `.github.installUrl` field) and have the user open it in their browser to authorize the app for their repos. There is no token to paste back — the OAuth flow handles everything.
+- Check `nori-sessions onboarding status`: `.github.installAvailable` is `true` when an org admin can install the app here. If `.github.managedByOrg` is set, that parent org's admins manage the install instead.
+- Have an org admin install the app: either from the dashboard's Integrations page (GitHub card, **Install GitHub App**), or with a link from `nori-sessions integrations github add-url` (the `url` field). Only an org admin's session can create the link, and only an org admin should open it. The link works once and expires after 10 minutes, so create it right before handing it over and create a new one if it expires or was already used. There is no token to paste back — GitHub's install page handles everything.
 - Verify by running `nori-sessions onboarding status`. The `.github` object should show `installed: true, configured: true`.
 </required>
 
@@ -38,7 +39,7 @@ The elevation is temporary. If the user prefers not to elevate, push the rest of
 
 If git operations that previously worked start failing with authentication errors or `Repository not found`, the GitHub App may have been uninstalled or suspended on GitHub's side. Run `nori-sessions onboarding status` and check `.github.installationProblem`:
 
-- `uninstalled` — the app was removed on GitHub. Have the user open the dashboard's Integrations page and click **Reinstall GitHub App** (the same link is `.github.installUrl`). If `.github.managedByOrg` is set, that parent org's admins must reinstall it instead.
+- `uninstalled` — the app was removed on GitHub. Have the user open the dashboard's Integrations page and click **Reinstall GitHub App**, or give an org admin a fresh one-use link from `nori-sessions integrations github add-url`. If `.github.managedByOrg` is set, that parent org's admins must reinstall it instead.
 - `suspended` — a GitHub organization owner must unsuspend the installation on GitHub.
 - absent — Nori checks the installation periodically and whenever the Integrations page opens. If the user confirms they removed the app, ask them to open the Integrations page, then check the status again.
 

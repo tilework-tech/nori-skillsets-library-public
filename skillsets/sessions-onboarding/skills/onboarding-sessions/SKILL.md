@@ -114,7 +114,7 @@ After they install, confirm via `nori-sessions onboarding status`
 `configuring-slack` platform skill if not.
 
 **GitHub.** Ask whether they need public repos, private repos, or both. The
-checklist row links to the GitHub App install; when they want you to drive
+checklist row leads to the GitHub App install on the Integrations page; when they want you to drive
 (or prefer a PAT), read the `configuring-github` platform skill and walk
 them through it.
 
