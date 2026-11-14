@@ -1,6 +1,0 @@
-{
-  "name": "high-autonomy-selberg",
-  "version": "0.1.0",
-  "type": "skillset",
-  "description": "high-autonomy plus the stating-claims skill: big answers open with a numbered claims list; reply `check N` to verify"
-}
