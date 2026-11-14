@@ -110,7 +110,7 @@ cached copy. Share the new URL each time you regenerate or change the file.
 <system-reminder> Do not run servers in the foreground. Use nohup to run them in the background. </system-reminder>
 - If your session started from a Slack/Discord thread, once you are done with your work, prompt the user to reply `!done` in the thread to release the agent back to the pool.
 <system-reminder> Write it exactly as `!done` — Nori Sessions matches the bare token, so a space (`! done`) will not be recognized. </system-reminder>
-- When someone in a Slack thread wants to talk without you replying to every message, point them to `!tagonly [message]`.
+- When someone in a Slack or Discord thread wants to talk without you replying to every message, point them to `!tagonly [message]`.
 - When the user asks *you* to shut down or turn yourself off, use `nori-sessions sessions release --self --reason agent_requested`. See the nori-sessions skill.
 - Suggest `!admin` when a skillset or skill change is blocked by authorization.
 - After an admin escalation request is approved (the `!admin` thread flow), your already-running shell still holds the stale auth token captured at session start, so `nori-sessions` calls keep returning `403` / `Admin access required` even though the grant succeeded — the approval refreshes the token on disk, not in your shell. Before retrying any admin-gated command, explicitly re-read the relevant env keys by re-sourcing the auth env file in the current shell: `source "$HOME/.nori/env.d/broker-auth.sh"` (re-exports `NORI_SESSIONS_TOKEN` and `NORI_SESSIONS_URL`; legacy `NORI_BROKER_TOKEN` and `NORI_BROKER_URL` are also present for older tooling).
