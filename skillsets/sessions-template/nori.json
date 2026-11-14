@@ -1,6 +1,6 @@
 {
   "name": "sessions-template",
-  "version": "1.0.357",
+  "version": "1.0.358",
   "type": "skillset",
   "description": "Public seed template for <orgId>/sessions. Provides org-level agent instructions."
 }

@@ -13,6 +13,11 @@ in this role.
 
 ## 1. Fetch recent transcripts
 
+These routes need admin scope. The managed `skill-improvement` automation
+runs with it; a session a member started gets 403. On 403, stop and report
+that this review must run as the managed automation or from an admin's
+session.
+
 List transcripts from the last week:
 
 ```bash
