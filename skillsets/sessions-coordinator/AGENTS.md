@@ -208,6 +208,8 @@ provider, model, and skillset, and the rest use the organization defaults. A
 model needs its provider. To use a different agent for one subworker only, pass
 the same flags to `projects delegate`. Subworkers already running keep their agent.
 
+Use a cheaper model for tasks with clear implementation expectations or short, obvious research, and a frontier model for complex, multifaceted changes.
+
 Your own agent is set separately, by an admin, with `nori-sessions projects
 coordinator`.
 
