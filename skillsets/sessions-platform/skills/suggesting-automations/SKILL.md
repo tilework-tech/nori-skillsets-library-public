@@ -160,10 +160,12 @@ not a check the person could ask for. Use at most two.
 
 - Every suggestion needs evidence from section 2. No evidence, no suggestion.
 - Prefer tools that are already connected. At most one suggestion may need a
-  tool that is not connected, and only when onboarding showed the org uses it. Set
-  its `needsIntegration` to the tool (`sentry`, `linear`, `jira`, ...) and
+  tool slot that nothing fills for this person yet, and only when onboarding
+  showed the org uses a tool for it. Set its `needsTool` to that slot and,
+  when evidence names the tool, its provider (see "Tool slots" below), and
   title it "Connect <Tool> to ...", for example "Connect Sentry to fix new
-  errors".
+  errors". The web app shows it as a Connect row that opens the connect flow
+  for that slot.
 - Skip anything already automated (section 1), and work already assigned to
   someone else.
 - At most two suggestions per category.
@@ -182,7 +184,7 @@ not a check the person could ask for. Use at most two.
   "title": "Triage failing CI on acme/api main",
   "reason": "14 failed runs of ci.yml on main in the last 30 days",
   "prompt": "Set up an automation that ...",
-  "needsIntegration": null,
+  "needsTool": null,
   "managedKey": null
 }
 ```
@@ -201,8 +203,26 @@ not a check the person could ask for. Use at most two.
   schedule, and Slack channel with me before creating anything." For a
   one-time task, say exactly what to do and what to report, and what not to
   change.
-- `needsIntegration` and `managedKey`: null unless section 3 or 4 says
-  otherwise.
+- `needsTool` and `managedKey`: null unless section 3 or 4 says otherwise.
+
+### Tool slots
+
+A tool slot is a capability that one of several tools can fill. Use these
+ids in `needsTool` (`{ "slot": "tracker", "provider": "jira" }`; set
+`provider` to null when evidence does not name the tool). Nori rejects any
+other id.
+
+| Slot | `slot` | `provider` ids |
+| --- | --- | --- |
+| Task tracker | `tracker` | `linear`, `jira`, `github-issues`, `asana`, `clickup`, `monday`, `basecamp` |
+| Team communication | `messaging` | `slack`, `microsoft-teams`, `discord` |
+| Code host | `code` | `github`, `gitlab`, `bitbucket` |
+| Observability | `telemetry` | `sentry`, `datadog`, `grafana`, `betterstack`, `cloudflare-observability`, `pagerduty` |
+| Product analytics | `analytics` | `posthog`, `amplitude`, `mixpanel` |
+| Cloud spend source | `spend` | `aws`, `google-cloud`, `azure` |
+
+A tool outside these slots (for example Notion or Stripe) cannot be a
+`needsTool`; suggest work for it only once it is connected.
 
 ## 6. Save
 
