@@ -1,6 +1,6 @@
 # Factory requirements (catalog 2.0.0-proposal.2)
 
-Generated from the app catalog. Do not edit by hand.
+Written from Nori's Factory catalog. Do not edit by hand.
 
 ## Connections
 

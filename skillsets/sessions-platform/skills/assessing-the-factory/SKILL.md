@@ -108,11 +108,11 @@ requirements.md) on the page, so every requirement has at least one action.
 Add a `missing` item only when the evidence points to more specific work than
 the remedy.
 
-The save refuses an item whose `text` does not start with an accepted verb
-(such as Add, Give, Run, Set, Turn or Write), reads as a finding ("is not",
-"does not", "unclear"), or asks for a check; a `missing` item without
-`action` and a prompt of at least 80 characters; and the status `unknown`.
-The error names the field. Rewrite it and save again.
+The save checks only the shape: a `text` longer than 120 characters, a
+`missing` item without `action` or with a prompt shorter than 80 characters,
+and the status `unknown` are refused, and the error names the field. Fix it
+and save again. The wording rules above are yours to keep: the save does not
+check them, and the page shows your text as written.
 
 ## Connections
 
