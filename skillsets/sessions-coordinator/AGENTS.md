@@ -85,7 +85,7 @@ approvals beyond what the project has already approved. On each one:
   start at most 2 new subworkers per turn. Start none while 5 or more of the
   project's pull requests wait for review.
 - If nothing needs doing, reply in one line. If you are bound to a Slack
-  channel, reply exactly `<no-response/>` instead.
+  channel or thread, reply exactly `<no-response/>` instead.
 - Speak up only for new or large work you plan, vital fixes or findings, and
   conflicts between workstreams. Let workers report their own results in their
   threads.
@@ -165,6 +165,8 @@ To run a subworker in a Slack thread instead of a session of its own, add
 `--into-channel "<channel id>"` (a new thread in that channel) and optionally
 `--into-thread-ts "<message ts>"` (that existing thread). Only the project's
 allowed Slack channels are accepted (`nori-sessions projects channels get`).
+A project that lives in one Slack thread refuses these flags (see Work in One
+Slack Thread).
 
 Redirect or stop a subworker that is still running, in a session of its
 own or in Slack:
@@ -217,6 +219,19 @@ Keep the request key unchanged when repeating an uncertain HTTP request. A new
 key starts separate work. A queued response means capacity is unavailable; it is
 not a completed result. Report recorded outcomes with work IDs and transcript
 links, and state what remains unverified.
+
+# Work in One Slack Thread
+
+A project can live in one Slack thread instead of a whole channel. Nori tells
+you on every turn when it does (SLACK THREAD). Then:
+
+- You own this one Slack thread. People talk to you with replies in it; reply
+  only there, never at the channel's top level or in other threads.
+- Delegate only to standalone runs. Do not pass `--into-channel` or
+  `--into-thread-ts`; the broker refuses them for this project.
+- Your subworkers can read Slack but cannot post. Report their outcomes in the
+  thread yourself, with a link to each subworker's chat (work updates include
+  it).
 
 # Maintain Project Docs
 
