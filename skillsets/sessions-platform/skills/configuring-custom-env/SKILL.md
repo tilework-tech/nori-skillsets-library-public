@@ -22,7 +22,9 @@ description: Use when adding, listing, or removing custom environment variables 
 | Agent | `--scope agent --agent <handle>` | Only sessions running that custom agent |
 
 - Personal and agent scopes need the org's access-control feature. Without it, a scoped write fails with `scope must be 'org'`; say so and do not fall back to org scope for a personal secret.
-- Only a signed-in person (the dashboard: Integrations → Custom environment variables) or a session with an approved `!admin` request can write personal or agent scope. From a session, have the person reply `!admin`, then run `source "$HOME/.nori/env.d/broker-auth.sh"` before retrying. A personal variable written from a session belongs to the person that session works for.
+- Only a signed-in person (the dashboard: Integrations → Custom environment variables) or a session with an approved `!admin` request can write personal or agent scope. A person's approval in the conversation does not count. From a session, have the person reply `!admin` and open the approval link it returns, then run `source "$HOME/.nori/env.d/broker-auth.sh"` before retrying. `!admin` works in web chat, Slack, and Discord; do not file a help request to ask whether it is available.
+- Ask for `!admin` before generating a secret (for example running `ssh-keygen`) that you can only store in personal or agent scope, so you do not create and discard it.
+- A personal variable written from a session belongs to the person that session works for.
 - `list-custom` shows only org entries. Use `list-custom --all-scopes` to also see personal and agent entries you may view. Values are always masked.
 - Delete with the same scope you saved: `delete-custom --key K --scope personal` (an admin adds `--owner <email>` to remove someone else's), or `--scope agent --agent <handle>`.
 
