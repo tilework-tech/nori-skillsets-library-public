@@ -26,7 +26,7 @@ Add these to your TODO list:
 1. Read what is already known: the current set and existing automations (section 1).
 2. Gather evidence from the person's tools, read-only (section 2).
 3. Match the evidence to the catalog (section 3).
-4. Keep the current set, then add to it, 4 to 8 in total (section 4).
+4. Rank and cut to 4 to 8 suggestions (section 4).
 5. Write each suggestion (section 5).
 6. Save the set (section 6).
 </required>
@@ -63,30 +63,9 @@ nori-sessions suggestions get
 ```
 
 This shows the person's current personal set (`items` is null while they
-still see the generic set). The current set is your baseline. Write down each
-item and its reason. In section 4, after you gather evidence, keep every item,
-with the same `id`, unless one of these is true:
-
-- It is done: the automation now exists and is on, or the person did the
-  one-time task.
-- It is already automated: a trigger or a managed automation from the lists
-  below now does this work.
-- Its evidence no longer holds: for example, CI on that branch no longer
-  fails, or the pull request merged. A generic item that you added without
-  evidence has no evidence to hold.
-- It breaks a limit in section 4. Remove the weakest item that breaks it.
-
-If you cannot read the source of an item's evidence in this run, keep the
-item. Never remove an item only to replace it with a different idea.
-
-When you can make a kept item better, change it and keep its `id`: a sharper
-title, reason, or prompt, or fresher numbers. Do this, not a replacement. If
-the tool of a "Connect" item is now connected, change that item: set
-`needsTool` to null and write a new title and prompt. There is no limit to
-how many items change in one run, but each removal needs one of the reasons
-above.
-
-If `items` is null, build a fresh set.
+still see the generic set). Keep an idea from the current set, with the same
+`id`, only while its evidence still holds; replace ideas that are done or
+stale.
 
 List what is already automated. Skip any idea that one of these already does:
 
@@ -255,11 +234,8 @@ evidence names: for example, test an open pull request on real devices, or
 run one end-to-end signup on a test account. It is not a category match and
 not a check the person could ask for. Use at most two.
 
-## 4. Keep, then add
+## 4. Rank and cut
 
-- Start from the current set. Use the evidence from section 2 to decide which
-  items to remove, with the reasons in section 1. Keep the others. The limits
-  below count them too.
 - Every suggestion needs evidence from section 2. No evidence, no suggestion.
 - Prefer tools that are already connected. At most one suggestion may need a
   tool slot that nothing fills for this person yet, and only when onboarding
@@ -273,13 +249,9 @@ not a check the person could ask for. Use at most two.
 - At most two suggestions per category.
 - Prefer narrow, well-defined chores. They succeed and get merged far more
   often than broad ones.
-- Add new items only into free places: the places left when the set has
-  fewer than 8 items, and the places that removals freed. Never remove a
-  kept item to make room for a new one. Rank new ideas by their evidence, and
-  add the best first.
-- Keep 4 to 8 in total. If you have fewer than 4 with evidence, fill the rest
-  with the closest generic chores for repos you found, still naming the repo
-  or channel.
+- Keep 4 to 8. If you have fewer than 4 with evidence, fill the rest with the
+  closest generic chores for repos you found, still naming the repo or
+  channel.
 
 ## 5. Write each suggestion
 
@@ -296,8 +268,7 @@ not a check the person could ask for. Use at most two.
 ```
 
 - `id`: a lowercase slug from the category and the main repo or channel, so
-  the same idea keeps the same id tomorrow. For a kept item, use its `id`
-  from the current set.
+  the same idea keeps the same id tomorrow.
 - `kind`: `automation` for scheduled work, `one-time` for a single task.
 - `title`: imperative, at most 60 characters.
 - `reason`: the line under the title, at most 110 characters. Every
@@ -343,6 +314,5 @@ nori-sessions suggestions save --file /tmp/suggestions.json
 The file holds `{ "items": [ ... ] }`. Nori checks the limits above. If
 it rejects the set, fix what the error names and save again. Only this run can
 save the person's set; the save also sets the "Suggestions updated" time they
-see. End the run with one line that says how many suggestions you saved; how
-many you kept as they were, changed, removed (with a short reason for each),
-and added; and which sources were not readable.
+see. End the run with one line saying how many suggestions you saved and which
+sources were not readable.
