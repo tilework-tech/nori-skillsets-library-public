@@ -76,7 +76,7 @@ a name for yourself.
 
 Check `~/org/sessions/AGENTS.md` for an existing `## Identity` section; if
 one exists from an interrupted session, read it back and ask whether to keep
-it. Otherwise ask what to call you (default: Nori) and what traits to have,
+it. Otherwise ask what to call you (default: Jiro) and what traits to have,
 then write the answers into an `Identity` section at the top of
 `~/org/sessions/AGENTS.md`:
 
