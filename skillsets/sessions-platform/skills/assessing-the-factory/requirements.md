@@ -22,7 +22,7 @@ Turn each ready work item into a pull request.
 - Completion: For each included queue of ready work items, each item is started and produces a pull request with a clear scope and a link to the item. Assess each queue one time, not each origin of the items.
 - Evidence: For each queue: the start rule or automation, and dated examples that go from item to pull request with links in the two directions.
 - Needs: `tracker`, `code`
-- Approved remedy (automation): Start a pull request from each ready work item. Nori sets up a work-item-to-pull-request automation for each queue. A tracker webhook (or a scheduled poll) starts a session for each ready item, and the session opens a pull request with links in the two directions. Nori adds a CI check that enforces the work item ID in each pull request, and a weekly report of the ready items that have no pull request. Needs: the Nori GitHub app on the repositories, and read and write access to the task tracker. A person reviews and merges.
+- Approved remedy (automation): Start a pull request from each ready work item. Nori sets up a work-item-to-pull-request automation for each queue. A tracker webhook (or a scheduled poll) starts a session for each ready item, and the session opens a pull request with links in the two directions. Nori adds a CI check that enforces the work item ID in each pull request, and a weekly report of the ready items that have no pull request. Needs: the Jiro (by Nori) GitHub app on the repositories, and read and write access to the task tracker. A person reviews and merges.
 
 ## Change checks (`checks`)
 
@@ -33,14 +33,14 @@ Run automatic checks on each change, and follow each failure or finding until it
 - Completion: In each included repository, the build, tests, type checks and contract checks that apply run on each change and report a result on the pull request.
 - Evidence: The workflow definition, a dated run, and the list of test suites that the workflow does not run.
 - Needs: `code`
-- Approved remedy (one-time): Add a reusable CI workflow to each repository. Nori writes one reusable CI workflow and adds it to each repository by pull request, with the build, tests, type checks and contract checks that Nori ran successfully in a session. Nori moves the test suites that run only by hand into the workflow, or into a scheduled run with a recorded reason. Needs: the Nori GitHub app with permission to change workflow files. An admin adds the secrets that the tests need.
+- Approved remedy (one-time): Add a reusable CI workflow to each repository. Nori writes one reusable CI workflow and adds it to each repository by pull request, with the build, tests, type checks and contract checks that Nori ran successfully in a session. Nori moves the test suites that run only by hand into the workflow, or into a scheduled run with a recorded reason. Needs: the Jiro (by Nori) GitHub app with permission to change workflow files. An admin adds the secrets that the tests need.
 
 ### `checks/security` Security checks run on change paths
 
 - Completion: Code and dependencies are scanned on each included change path. A change with higher risk has a recorded risk review.
 - Evidence: The scan workflow and a dated run for each path, the paths with no scan, and a risk review record for a higher-risk change.
 - Needs: `code`
-- Approved remedy (automation): Add code scanning and dependency review to pull requests. Nori adds code scanning and dependency review workflows and a dependency update configuration to each repository by pull request. Nori writes the list of higher-risk paths and a CODEOWNERS rule for them, and sets up an automation that posts a risk review on each pull request that touches those paths. Needs: the Nori GitHub app with permission to change workflow files. An organization admin turns on secret scanning and push protection, or authorizes Nori to change those settings.
+- Approved remedy (automation): Add code scanning and dependency review to pull requests. Nori adds code scanning and dependency review workflows and a dependency update configuration to each repository by pull request. Nori writes the list of higher-risk paths and a CODEOWNERS rule for them, and sets up an automation that posts a risk review on each pull request that touches those paths. Needs: the Jiro (by Nori) GitHub app with permission to change workflow files. An organization admin turns on secret scanning and push protection, or authorizes Nori to change those settings.
 
 ### `checks/failure-repair` Repeated check failures get repaired
 
@@ -76,7 +76,7 @@ Review each pull request and apply the rules that control a merge.
 - Completion: Each included source of pull requests gets a timely review that examines the change. This includes pull requests that are not part of project work.
 - Evidence: The review rule or automation for each source, and review records on a dated sample of pull requests.
 - Needs: `code`
-- Approved remedy (automation): Post an agent review on each pull request. Nori sets up a review automation that starts on each opened pull request (a scheduled poll, or a workflow step that calls a Nori webhook) and posts a review that examines the change. Nori writes a CODEOWNERS file for each repository from the commit history, as a pull request. Nori adds a daily report of the pull requests that have no review after the target time. Needs: the Nori GitHub app with write access to pull requests. The agent review does not replace an approval by a person that the merge rules require.
+- Approved remedy (automation): Post an agent review on each pull request. Nori sets up a review automation that starts on each opened pull request (a scheduled poll, or a workflow step that calls a Nori webhook) and posts a review that examines the change. Nori writes a CODEOWNERS file for each repository from the commit history, as a pull request. Nori adds a daily report of the pull requests that have no review after the target time. Needs: the Jiro (by Nori) GitHub app with write access to pull requests. The agent review does not replace an approval by a person that the merge rules require.
 
 ### `review/merge-rules` Merge rules are enforced
 
@@ -94,14 +94,14 @@ Keep agent instructions and documentation in each repository correct and availab
 - Completion: Each included repository has agent instructions, an architecture entry point and safe task limits. An agent gets them at the start of a task.
 - Evidence: The instruction files in each repository, and one task start that shows the agent loaded them.
 - Needs: `code`
-- Approved remedy (one-time): Write AGENTS.md with tested build and test commands. Nori reads each repository and writes an AGENTS.md file as a pull request: the build and test commands that Nori ran successfully, an architecture entry point and safe task limits. Nori adds a CI check that fails when the file is missing or when a linked document does not exist. Needs: the Nori GitHub app with permission to change workflow files.
+- Approved remedy (one-time): Write AGENTS.md with tested build and test commands. Nori reads each repository and writes an AGENTS.md file as a pull request: the build and test commands that Nori ran successfully, an architecture entry point and safe task limits. Nori adds a CI check that fails when the file is missing or when a linked document does not exist. Needs: the Jiro (by Nori) GitHub app with permission to change workflow files.
 
 ### `repo/docs-current` Stale documentation and agent guidance get fixed
 
 - Completion: Each included repository finds stale documentation and stale agent guidance. Each accepted correction goes through review and is published.
 - Evidence: The check or automation for each repository, and a dated correction that merged.
 - Needs: `code`
-- Approved remedy (automation): Open weekly pull requests that correct stale docs. Nori sets up a weekly docs-upkeep automation that opens correction pull requests for stale documentation and stale agent instructions. Nori adds a link check to CI. Needs: the Nori GitHub app on the repositories. A person merges the corrections.
+- Approved remedy (automation): Open weekly pull requests that correct stale docs. Nori sets up a weekly docs-upkeep automation that opens correction pull requests for stale documentation and stale agent instructions. Nori adds a link check to CI. Needs: the Jiro (by Nori) GitHub app on the repositories. A person merges the corrections.
 
 ## Intake and triage (`intake`)
 
@@ -137,7 +137,7 @@ Tell the team what shipped and how delivery is going, with links to the source r
 - Completion: Each relevant shipped change is added to an internal change record with a link to its source.
 - Evidence: The change record, the automation or procedure that writes it, and a comparison with a dated list of shipped changes.
 - Needs: `code`
-- Approved remedy (automation): Post a change record to the team after each release. Nori adds a release step that calls a Nori automation. The automation generates the internal change record from the merged pull requests and posts a summary to the team channel. Nori adds a workflow that labels pull requests by area, to select and group the changes. Needs: the Nori Slack app in the team channel, and the Nori GitHub app with permission to change workflow files.
+- Approved remedy (automation): Post a change record to the team after each release. Nori adds a release step that calls a Nori automation. The automation generates the internal change record from the merged pull requests and posts a summary to the team channel. Nori adds a workflow that labels pull requests by area, to select and group the changes. Needs: the Nori Slack app in the team channel, and the Jiro (by Nori) GitHub app with permission to change workflow files.
 
 ### `team-report/delivery` Delivery reports agree with source records
 
@@ -198,7 +198,7 @@ Prepare updates for customers from changes that shipped, and send them after a p
 - Completion: An update for each audience is written from verified shipped changes. Each delivery has an approval by a person and a delivery record.
 - Evidence: The draft with its source links, the approval record and the delivery record.
 - Needs: `code`, `messaging`
-- Approved remedy (automation): Draft customer updates from shipped changes for approval. Nori adds a "customer-facing" label and an automation that the release workflow calls. The automation drafts the update for each audience from the labeled shipped changes and opens it for approval. Publication runs only after a named person approves, and the delivery record stays with the release. Needs: the Nori GitHub app on the repository that holds the changelog. The approval by a person is deliberate: Nori does not send a message to customers without it.
+- Approved remedy (automation): Draft customer updates from shipped changes for approval. Nori adds a "customer-facing" label and an automation that the release workflow calls. The automation drafts the update for each audience from the labeled shipped changes and opens it for approval. Publication runs only after a named person approves, and the delivery record stays with the release. Needs: the Jiro (by Nori) GitHub app on the repository that holds the changelog. The approval by a person is deliberate: Nori does not send a message to customers without it.
 
 ## Incident response (`incident`)
 
@@ -252,14 +252,14 @@ Deploy merged changes with a record, and keep a tested way to go back.
 - Completion: Each included release path records the source, the gates that passed, the approval, the artifact and the deployment result.
 - Evidence: The release workflow and a dated run for each path, and the approval rule for each path.
 - Needs: `code`
-- Approved remedy (one-time): Write a gated deployment workflow with a release record. Nori writes a deployment workflow for each release path as a pull request. The workflow builds from a tagged commit, runs only after the required checks pass, waits for approval in a protected environment, and writes a release record with the source, the gates, the artifact and the result. Nori changes the scripts and documents that deploy from a personal computer so that they start the workflow. Needs: the Nori GitHub app with permission to change workflow files. An admin adds the deployment secrets and names the approvers.
+- Approved remedy (one-time): Write a gated deployment workflow with a release record. Nori writes a deployment workflow for each release path as a pull request. The workflow builds from a tagged commit, runs only after the required checks pass, waits for approval in a protected environment, and writes a release record with the source, the gates, the artifact and the result. Nori changes the scripts and documents that deploy from a personal computer so that they start the workflow. Needs: the Jiro (by Nori) GitHub app with permission to change workflow files. An admin adds the deployment secrets and names the approvers.
 
 ### `release/recovery` A bad release can be recovered
 
 - Completion: Each critical service has a rollback or recovery procedure, and a recorded result from a real use or a rehearsal.
 - Evidence: The procedure or workflow for each service, and the dated result of a real use or a rehearsal.
 - Needs: `code`
-- Approved remedy (automation): Write a rollback workflow and rehearse it each month. Nori writes a rollback workflow and a recovery runbook for each critical service as a pull request. Nori sets up a monthly automation that rehearses the rollback in staging and keeps the dated result with the runbook. Needs: the Nori GitHub app with permission to change and start workflows, and a staging environment. A person starts a rollback in production.
+- Approved remedy (automation): Write a rollback workflow and rehearse it each month. Nori writes a rollback workflow and a recovery runbook for each critical service as a pull request. Nori sets up a monthly automation that rehearses the rollback in staging and keeps the dated result with the runbook. Needs: the Jiro (by Nori) GitHub app with permission to change and start workflows, and a staging environment. A person starts a rollback in production.
 
 ## Cost review (`cost`)
 
