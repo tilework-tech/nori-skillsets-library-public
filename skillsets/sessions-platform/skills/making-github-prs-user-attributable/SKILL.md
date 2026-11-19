@@ -1,12 +1,12 @@
 ---
 name: making-github-prs-user-attributable
-description: Use when opening a GitHub pull request or acting on GitHub for someone, or when someone asks how to make the PRs, commits, or other GitHub work Nori does for them count as theirs instead of the Nori GitHub App bot's.
+description: Use when opening a GitHub pull request or acting on GitHub for someone, or when someone asks how to make the PRs, commits, or other GitHub work Nori does for them count as theirs instead of the Jiro (by Nori) GitHub App bot's.
 ---
 
 <required>
 - Before any `gh` command that writes (PRs, comments, reviews), re-read the GitHub env so a connection added or removed during this session is reflected:
   `unset GH_TOKEN NORI_GITHUB_USER_LOGIN NORI_USER_GITHUB_TOKEN; for f in github-user custom; do source "$HOME/.nori/env.d/$f.sh" 2>/dev/null || true; done`
-- If `GH_TOKEN` is now set, the session's person connected their GitHub account. Plain `gh` commands act as `$NORI_GITHUB_USER_LOGIN` with the Nori app badge. Open PRs with every value passed, so `gh` never prompts, pushes, or forks:
+- If `GH_TOKEN` is now set, the session's person connected their GitHub account. Plain `gh` commands act as `$NORI_GITHUB_USER_LOGIN` with the Jiro (by Nori) app badge. Open PRs with every value passed, so `gh` never prompts, pushes, or forks:
   `gh pr create --head "$BRANCH" --base "$BASE" --title "$TITLE" --body-file "$BODY_FILE"`
 - Otherwise, if `NORI_USER_GITHUB_TOKEN` is set, use it for the PR only: check it with `GH_TOKEN="$NORI_USER_GITHUB_TOKEN" gh api -i user`, then run `GH_TOKEN="$NORI_USER_GITHUB_TOKEN" gh pr create ...`. Never export it or use it for anything but `gh pr create`.
 - If a `gh` call fails with `401`, `403`, `404`, or "Resource not accessible", run `unset GH_TOKEN` and retry once with the app token. Tell the user what happened and that the result is bot-authored.
@@ -30,7 +30,7 @@ description: Use when opening a GitHub pull request or acting on GitHub for some
 - Availability: the org needs Nori's `github-user-attribution` flag, and an org admin turns it on in Security settings → GitHub, or with `nori-sessions fleet set-setup --github-user-attribution true`. Only admins can change it.
 - Connecting: the person opens `connectUrl` from `nori-sessions integrations github-user status` (the dashboard's Integrations → GitHub card) in a browser signed in to Nori and approves the GitHub consent screen. Their GitHub account must be able to reach the org's GitHub App installation; otherwise the connect is refused and nothing is stored.
 - The connection reaches sessions they start within moments. A shell opened earlier must re-read the env as above.
-- What it can do: whatever both the person and the Nori app may do on GitHub, on every repository the app is installed on that the person can reach. GitHub shows their avatar with the app badge.
+- What it can do: whatever both the person and the Jiro (by Nori) app may do on GitHub, on every repository the app is installed on that the person can reach. GitHub shows their avatar with the app badge.
 - Disconnecting: the same Integrations card. It revokes the token on GitHub.
 - An agent can read the status but cannot connect or disconnect for someone.
 

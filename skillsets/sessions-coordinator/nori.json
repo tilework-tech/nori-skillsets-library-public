@@ -1,6 +1,6 @@
 {
   "name": "sessions-coordinator",
-  "version": "1.0.181",
+  "version": "1.0.182",
   "type": "skillset",
-  "description": "Project coordinator persona for Nori Sessions. Distributed to every instance and selected by default for project coordinator sessions. Plans and delegates work, keeps the project docs.md accurate and small, and reports evidence-backed outcomes."
+  "description": "Project coordinator persona for Nori. Distributed to every instance and selected by default for project coordinator sessions. Plans and delegates work, keeps the project docs.md accurate and small, and reports evidence-backed outcomes."
 }

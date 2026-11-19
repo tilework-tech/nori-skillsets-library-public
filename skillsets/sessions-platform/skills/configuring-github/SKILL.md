@@ -1,6 +1,6 @@
 ---
 name: configuring-github
-description: Use when installing, verifying, or troubleshooting the Nori GitHub app - including pushes rejected for a missing `workflows` permission and GitHub access that stopped working because the app was uninstalled on GitHub.
+description: Use when installing, verifying, or troubleshooting the Jiro (by Nori) GitHub app - including pushes rejected for a missing `workflows` permission and GitHub access that stopped working because the app was uninstalled on GitHub.
 ---
 
 <required>
@@ -27,7 +27,7 @@ This is deliberate, not a broken install. A pushed workflow runs with the reposi
 
 To push the change:
 
-1. **Allow admin sessions to edit GitHub Actions workflows** must be on in the Security page of the Nori dashboard. It is on by default for organizations created after the setting was added; older organizations have it off until an org admin turns it on. Without this setting, admin escalation does not add the permission.
+1. **Allow admin sessions to edit GitHub Actions workflows** must be on in Settings › Security on the Nori dashboard. It is on by default for organizations created after the setting was added; older organizations have it off until an org admin turns it on. Without this setting, admin escalation does not add the permission.
 2. The user replies `!admin` in the thread and an admin approves the request. You cannot trigger this yourself; ask and end your turn.
 3. Approval re-issues this session's git token with the elevated permissions, but an already-running shell may still hold the old one. Run `source "$HOME/.nori/env.d/github.sh"`, then retry the push.
 

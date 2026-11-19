@@ -180,9 +180,9 @@ immediately and show the error.
    nori-sessions onboarding handoff-provider --provider codex --type skip
    ```
 
-End by printing a short completion message and the dashboard URL:
+End by printing a short completion message and the dashboard URL (run `echo $NORI_SESSIONS_URL` and print its output):
 
 ```
 You're all set. Your agent is ready.
-https://${NORI_ORG}.norisessions.com
+<dashboard URL>
 ```

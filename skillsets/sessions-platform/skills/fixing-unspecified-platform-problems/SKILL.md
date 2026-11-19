@@ -1,6 +1,6 @@
 ---
 name: fixing-unspecified-platform-problems
-description: Use when asked to find whatever is hurting this organization's Nori Sessions users without a specific problem named - a nightly platform health run, or "what's broken lately?" - by reading the org's own service logs for the past 24 hours, picking at most one painful failure category, tracing its cause through chats, setup scripts, CI, and repos, and proposing one evidence-backed fix to the org's platform owners.
+description: Use when asked to find whatever is hurting this organization's Nori users without a specific problem named - a nightly platform health run, or "what's broken lately?" - by reading the org's own service logs for the past 24 hours, picking at most one painful failure category, tracing its cause through chats, setup scripts, CI, and repos, and proposing one evidence-backed fix to the org's platform owners.
 ---
 
 # Fixing Unspecified Platform Problems

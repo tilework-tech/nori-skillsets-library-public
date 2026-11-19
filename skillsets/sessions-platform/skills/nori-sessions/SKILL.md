@@ -5,11 +5,11 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
 
 <system-note> Use the `sks` CLI to install, switch, or edit skillsets. `nori-sessions skillsets` only browses them. </system-note>
 
-- `nori-sessions` (pre-installed at `~/.local/bin/`) talks to the Nori Sessions HTTP API and prints JSON for both success and failure. Use `--help` on any subcommand for syntax.
-- The CLI covers the whole API. It does not hide commands you may lack permission for; Nori Sessions refuses those with a 401/403 error, so read the error instead of assuming a command is missing.
+- `nori-sessions` (pre-installed at `~/.local/bin/`) talks to the Nori HTTP API and prints JSON for both success and failure. Use `--help` on any subcommand for syntax.
+- The CLI covers the whole API. It does not hide commands you may lack permission for; Nori refuses those with a 401/403 error, so read the error instead of assuming a command is missing.
 - Read the `tips` array when a response has one. Each tip names the exact command that fetches what the response left out (more pages, a broader scope or archive view, the detail behind a summary, the outcome of a pending change). A filtered or empty list does not prove a record does not exist.
 - Command areas:
-  - `health`, `version`, `auth whoami` - Nori Sessions reachability (`health live|ready`), the running server version, and the identity this CLI calls as
+  - `health`, `version`, `auth whoami` - Nori reachability (`health live|ready`), the running server version, and the identity this CLI calls as
   - `sessions` - list, start, release, resume, and hand off session machines; the web capacity queue (`queue`, `idle`, `end-idle`); per-session history, contributors, transcript, preview URL, and file `attach`/`download`
   - `fleet` - inspect and update fleet setup (the org setup script and admin settings such as `set-setup --github-user-attribution` and `--github-signed-commits`), machine sizes (`fleet sizes list|set`), the start queue, sandbox provider, and the org agent (`get-agent|set-agent`)
   - `config` and `billing` - org provider/model settings and feature flags; plan, usage, and fleet capacity limits
@@ -32,13 +32,13 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `multiplex` - live conversations side by side; `multiplex watch` reads the live feed for a bounded time (`--max-events`, `--timeout-ms`)
   - `stats` and `logs` - session statistics; `logs query --query <LogsQL> [--start --end --limit]` reads this org's service logs; see the `fixing-unspecified-platform-problems` skill for how to triage them
   - `memories` - search, save, revise, or delete reusable knowledge; read `{{skills_dir}}/using-session-memories/SKILL.md` for capture and retrieval guidance
-  - `notifications` - list and dismiss Nori Sessions notifications
+  - `notifications` - list and dismiss Nori notifications
   - `help-request` - send Nori's team a help request; see the `reporting-to-nori` skill
   - `users`, `invites`, `admin-escalation` - org members, invite links, and `!admin` requests (admin)
   - `preferences`, `push`, `views` - the signed-in person's dashboard preferences, browser push subscriptions, and custom web UI views
   - `e2e` - end-to-end testing utilities
 - To link the user to this chat in the dashboard, run `nori-sessions transcripts resolve-session --self` and post `$NORI_SESSIONS_URL/chat/<transcriptId>` with both parts resolved.
-- To shut yourself down when the user asks you to stop, end, or turn yourself off, run `nori-sessions sessions release --self --reason agent_requested`. In Slack, web chat, and the Nori CLI, Nori Sessions waits for your current reply to reach the user, then releases the machine and marks the conversation ended; in Discord the release happens immediately. Always pass `--reason`; a bare release tears the machine down mid-turn and drops your answer.
+- To shut yourself down when the user asks you to stop, end, or turn yourself off, run `nori-sessions sessions release --self --reason agent_requested`. In Slack, web chat, and the Nori CLI, Nori waits for your current reply to reach the user, then releases the machine and marks the conversation ended; in Discord the release happens immediately. Always pass `--reason`; a bare release tears the machine down mid-turn and drops your answer.
 
 ## Acting in other chats
 
@@ -133,7 +133,7 @@ together in the session browser:
    agents' groups. Change nothing else.
 4. Run `nori-sessions custom-agents sync` and report each agent's @-handle.
    If the response still carries tips, relay them. If sync returns 403, say
-   that an org admin can retry from the Custom agents page, or that Nori
+   that an org admin can retry from the Agents page, or that Nori
    retries on its own within the hour.
 5. Ask the user to sign out of Slack in the live view, or sign out for them
    once they agree.
@@ -163,4 +163,4 @@ on custom agents and automations, and tell the user which starts will go cold.
 Do not pin a default that differs from those sizes unless the user asks for it
 after hearing that. </system-reminder>
 
-<system-reminder> If a command fails, read the JSON error envelope before retrying. Authenticated commands need Nori Sessions auth from the session environment. </system-reminder>
+<system-reminder> If a command fails, read the JSON error envelope before retrying. Authenticated commands need Nori auth from the session environment. </system-reminder>

@@ -3,7 +3,7 @@ name: using-salesforce
 description: Use for any Salesforce work from a Nori session - SOQL queries, reading or changing records, describes, composite and Bulk API 2.0 jobs - through the org's managed Salesforce connection.
 ---
 
-- Salesforce is reached only through the Nori Sessions Salesforce relay. Never sign in to Salesforce from this machine by any other route (`sf` CLI, MCP, browser login, OAuth, a pasted token). Salesforce freezes the user and revokes their logins when API traffic comes from addresses like this machine's; the relay sends every request from Nori's side instead.
+- Salesforce is reached only through the Nori Salesforce relay. Never sign in to Salesforce from this machine by any other route (`sf` CLI, MCP, browser login, OAuth, a pasted token). Salesforce freezes the user and revokes their logins when API traffic comes from addresses like this machine's; the relay sends every request from Nori's side instead.
 - The relay is available when both variables are set (they come from `~/.nori/env.d/salesforce.sh`):
   - `NORI_SALESFORCE_RELAY_URL` - stands in for the org's instance URL.
   - `NORI_SALESFORCE_RELAY_TOKEN` - this session's relay token. Send it as `Authorization: Bearer`; it is not a Salesforce token.

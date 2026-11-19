@@ -5,7 +5,7 @@ description: Use for any scheduled or proactive work (triggered session automati
 
 # Triggered session automations
 
-A trigger starts an automation: each run claims a fresh session machine, sends the prompt to an agent with no human present, then releases the machine. The dashboard calls these Automations. They are stored in Nori Sessions, so no skillset upload is needed. Never use `/schedule`, `/loop`, `ScheduleWakeup`, or `CronCreate`; they die with this session.
+A trigger starts an automation: each run claims a fresh session machine, sends the prompt to an agent with no human present, then releases the machine. The dashboard calls these Automations. They are stored in Nori, so no skillset upload is needed. Never use `/schedule`, `/loop`, `ScheduleWakeup`, or `CronCreate`; they die with this session.
 
 <required>
 CRITICAL Add these steps to your todo list:

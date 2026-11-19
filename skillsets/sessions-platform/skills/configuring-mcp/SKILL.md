@@ -18,7 +18,7 @@ CRITICAL Add the following steps to your Todo list using TodoWrite:
   server without Dynamic Client Registration also needs `--client-id` and
   `--client-secret` from a client you pre-registered with it).
   The response carries an authUrl. Post that URL into the thread as plain text
-  with no formatting around it. When the user opens it and approves, Nori Sessions
+  with no formatting around it. When the user opens it and approves, Nori
   finishes the connection and adds it to the org integrations — you run nothing
   else.
 

@@ -204,7 +204,7 @@ makes step 2 an *agent*, not just a skillset.
 Turn one piece of recurring work into a trigger that runs unattended. Follow
 the `configuring-triggered-runs` skill for the mechanics — this step just
 needs **one working trigger**, cron or webhook, whichever fits the work the
-user described. Triggers are stored in Nori Sessions, not in skillset files,
+user described. Triggers are stored in Nori, not in skillset files,
 so there is nothing to upload.
 
 1. **List what already exists** before proposing anything

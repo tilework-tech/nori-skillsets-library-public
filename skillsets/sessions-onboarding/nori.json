@@ -1,6 +1,6 @@
 {
   "name": "sessions-onboarding",
-  "version": "1.0.237",
+  "version": "1.0.238",
   "type": "skillset",
-  "description": "Session-scoped onboarding copilot for Nori Sessions. Applied by the broker to the designated onboarding session only; never part of the org skillset."
+  "description": "Session-scoped onboarding copilot for Nori. Applied by the broker to the designated onboarding session only; never part of the org skillset."
 }

@@ -13,7 +13,7 @@ CRITICAL Add the following steps to your Todo list using TodoWrite:
 - Verify with a real call, e.g. `gws drive files list --params '{"pageSize":1}'`. Do not fall back to `gcloud`.
 </required>
 
-<system-reminder> If `gws-connect-link` returns `404 GWS OAuth not configured`, Nori Sessions has no Google OAuth client set up yet — that is a separate prerequisite, not something the connect link can fix. Surface this to the user rather than retrying. </system-reminder>
+<system-reminder> If `gws-connect-link` returns `404 GWS OAuth not configured`, Nori has no Google OAuth client set up yet — that is a separate prerequisite, not something the connect link can fix. Surface this to the user rather than retrying. </system-reminder>
 
 <system-reminder> When access control is on, Google accounts can also be personal or per-agent. Any member can connect their own personal Google account, and an admin can connect one for a custom agent, from the Google Workspace card on the Integrations page (a signed-in browser is required, even with an approved `!admin`; `gws-connect-link` only issues the org link). Each connect chooses Read-only or Read and write. A session gets exactly one account: its agent's, else the person who started it, else the org's. No `!admin` is needed for a personal connect. A write failing with insufficient scopes may mean the session's account was connected read-only. </system-reminder>
 

@@ -39,7 +39,7 @@ Pick a `--kind`: `bug` for an error or broken behavior, `feature` for a missing 
 Never include secrets, tokens, passwords, environment variable values, private keys, cookies, or credential files. Leave out customer data, personal data, and source code beyond the few lines needed to show the error. The organization, machine, conversation link, and the email of the person you are working for are attached automatically; do not add them.
 
 ```bash
-nori-sessions help-request --kind bug --title 'Session restore fails on every resume' --text 'Session restore fails on every resume. Resuming this conversation at 14:02 UTC returned "workspace_unrestorable" twice; a fresh session starts fine. Expected the checkpoint from 13:40 UTC to restore. Tried: nori-sessions checkpoints list (shows the checkpoint as complete).'
+nori-sessions help-request --kind bug --title 'Session restore fails on every resume' --text 'Session restore fails on every resume. Resuming this conversation at 14:02 UTC returned "workspace_unrestorable" twice; a fresh session starts fine. Expected the checkpoint from 13:40 UTC to restore. Tried: resuming from the web dashboard instead of Slack (same error).'
 ```
 
 After filing, tell the user in one line that you reported it to Nori and continue trying to fulfill their actual request.
