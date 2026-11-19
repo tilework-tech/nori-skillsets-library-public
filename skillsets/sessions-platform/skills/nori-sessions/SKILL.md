@@ -12,7 +12,8 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `health`, `version`, `auth whoami` - Nori reachability (`health live|ready`), the running server version, and the identity this CLI calls as
   - `sessions` - list, start, release, resume, and hand off session machines; the web capacity queue (`queue`, `idle`, `end-idle`); per-session history, contributors, transcript, preview URL, and file `attach`/`download`
   - `fleet` - inspect and update fleet setup (the org setup script and admin settings such as `set-setup --github-user-attribution` and `--github-signed-commits`), machine sizes (`fleet sizes list|set`), the start queue, sandbox provider, and the org agent (`get-agent|set-agent`)
-  - `config` and `billing` - org provider/model settings and feature flags; plan, usage, and fleet capacity limits
+  - `config` - the org default provider and model and which providers are offered (`get-provider|set-provider`, `get-models|set-model`, `get-enabled-providers|set-enabled-providers`; setters need admin), and the org's feature flags (`features`). The dashboard equivalent is "Set as org default" on Integrations > Token providers. `fleet set-agent` changes the agent's name and style, not its model
+  - `billing` - plan, machine capacity, and renewal (`summary`), seats and usage, and the billing portal; admin only, and only owners change the plan
   - `integrations` - provider and platform integrations, MCP servers, custom env vars (MCP/CLI connections and custom env vars take `--scope org|personal|agent`), credential health, and provider connect flows
     - `integrations github-user status` - whether the person you work for connected their GitHub account, with the `connectUrl` they open to connect it; connecting and disconnecting happen only in their browser (`github-user disconnect` is refused unless a person is signed in)
   - `slack-proxy` - call a Slack Web API method or download a shared file with this conversation's Slack grant (`--slack-token`, else `NORI_SLACK_CONTEXT_TOKEN` from `~/.nori/env.d/slack.sh`), limited to the channels the grant covers
@@ -36,7 +37,11 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `help-request` - send Nori's team a help request; see the `reporting-to-nori` skill
   - `users`, `invites`, `admin-escalation` - org members, invite links, and `!admin` requests (admin)
   - `preferences`, `push`, `views` - the signed-in person's dashboard preferences, browser push subscriptions, and custom web UI views
-  - `e2e` - end-to-end testing utilities
+  - `factory` - the org's saved Factory assessment of how it ships software (`factory get`); `save` is reserved for the factory-discovery automation run
+  - `suggestions` - the personal suggestions shown under the web composer; `save` is reserved for each person's own suggestions research run
+  - `one-connect` - personal and shared app connections through One, where the org has it (`status`, `authorize`, `disconnect`, `catalog`; `share-apps` needs admin)
+  - `tours`, `set-pieces`, `scripted-onboarding`, `onboarding-v3` - internal to Nori's onboarding flows; use them only when an onboarding skill tells you to
+  - `e2e` - Nori-internal end-to-end testing utilities; refused unless the deployment enables them
 - To link the user to this chat in the dashboard, run `nori-sessions transcripts resolve-session --self` and post `$NORI_SESSIONS_URL/chat/<transcriptId>` with both parts resolved.
 - To shut yourself down when the user asks you to stop, end, or turn yourself off, run `nori-sessions sessions release --self --reason agent_requested`. In Slack, web chat, and the Nori CLI, Nori waits for your current reply to reach the user, then releases the machine and marks the conversation ended; in Discord the release happens immediately. Always pass `--reason`; a bare release tears the machine down mid-turn and drops your answer.
 

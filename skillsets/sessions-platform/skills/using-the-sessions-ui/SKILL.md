@@ -13,13 +13,20 @@ description: Use when explaining or reasoning about the Nori web UI, dashboard s
 
 ## Main dashboard areas
 
-- **Chat** shows live and durable conversation history.
-- **Projects** groups long-running work: its coordinator, project docs, chats, and automations.
-- **Agents** holds custom agents and the library of skillsets, skills, and subagents available to sessions.
+- **Chat** shows live and durable conversation history. The sidebar scopes are Following, Yours, Archived, and All (admins only). Tick chats and use the row menu's "Move to project…" to group them.
+- **Projects** groups long-running work: its coordinator, project docs, chats, and automations. Any member can choose New project and give it a name and a desired outcome; "Start now" sends the outcome to the coordinator as its first message.
+- **Agents** (admins only) holds custom agents, the Library of skillsets, skills, and subagents, and the Builder (`/agents/new`). A custom agent is an @handle with a provider and optional model, skillset, machine size, thinking level, display name, response style, integrations, and who can use it. People use custom agents by @handle in Slack, from the chat picker, or by assigning them to automations and projects.
 - **Automations** manages unattended scheduled, reminder, and webhook-driven work.
-- **Integrations** connects GitHub, Slack, Google Workspace, MCP servers, CLI tools, and custom environment variables.
+- **Integrations** connects GitHub, Slack, Google Workspace, MCP servers, CLI tools, and custom environment variables. Its Token providers area holds model accounts (Claude, Codex, OpenRouter, custom endpoints); an admin's "Set as org default" on a provider's card sets the org default provider and model. Where access control is on, members connect personal integrations here too.
 - **Factory** shows the daily assessment of how the org ships software, when the org has it turned on.
-- **Settings** (Admin or Owner) has the Fleet (machine lifecycle, session ownership, provider, per-machine controls, and setup), Sessions, Users, Security, and Billing sections, plus Views when custom views are on.
+- **Settings** (Admin or Owner) has the Fleet (machine lifecycle, session ownership, provider, per-machine controls, and setup), Sessions (agent name and style, thread startup card, workspace and setup script, automations and release timeouts), Users (invites and roles), Security, and Billing sections, plus Views when custom views are on.
+
+## Who sees what
+
+- Members see Chat, Projects, Automations, and Integrations. Agents and Settings are admin only, and Billing is admin only inside Settings.
+- Members can create projects and propose automations; an admin approves a member's automation ("Change awaiting approval", reviewed under "Review requests") before it runs.
+- Only owners change the plan or make someone an owner.
+- For the full list of what each role can do, read `{{skills_dir}}/explaining-nori/capabilities.md`.
 
 ## Fleet action vocabulary
 

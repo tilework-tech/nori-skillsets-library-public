@@ -40,7 +40,7 @@ CRITICAL Add the following steps to your Todo list using TodoWrite:
   `nori-sessions integrations mcp tools --name HANDLE`.
 </required>
 
-<system-reminder> A connected server is distributed to newly provisioned sessions, not the one you are running in. It reaches active sessions only after the fleet reboots or cycles, so tell the user the tools will not appear mid-session. </system-reminder>
+<system-reminder> A connected server reaches the next new chat or automation run, because its config is written when a machine is claimed; no fleet restart is needed. The chat you are running in does not gain the server's tools, so tell the user to start a new chat to use them. Its token is also refreshed on running machines, which matters for a reauth. </system-reminder>
 
 <system-reminder> Connections are org-wide by default. When the org has access control on, `connect`, `update`, `delete`, `reauth`, and `tools` also take `--scope personal` (the requesting person's own connection) or `--scope agent --agent HANDLE` (one custom agent's); `delete --scope personal --owner EMAIL` lets an admin remove someone else's. `mcp list --all-scopes` adds agent rows, plus personal rows only to their owner or a signed-in admin (so not to an agent in a session). From a session, personal and agent scope only work while an org admin has approved this session's `!admin` request: ask the user to reply `!admin`, end your turn, and after approval re-source `$HOME/.nori/env.d/broker-auth.sh` before retrying. The change is made and audited as the person the session works for. </system-reminder>
 
