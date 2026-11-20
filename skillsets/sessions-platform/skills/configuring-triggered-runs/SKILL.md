@@ -38,6 +38,11 @@ Automations run with org-wide credentials (plus the custom agent's) by default, 
 - Cron or reminder only, standalone only (no `--slack-channel-id` / `--slack-thread-ts`; have the prompt post with the Slack CLI instead), not with `--run-as-admin true`, and not in a project (`--personal true` skips the session's default project). Refused when the org has access control off.
 - It runs as its author. Only the author can change it, test it, turn personal off, or chain an internal-event automation off it; anyone else can only pause it, and only the author sees its last-run output. If the author leaves the org, runs fail rather than fall back to org credentials.
 
+When your turn brief says conversational scoping is on, each run gets the org's and its custom agent's credentials, read at run time, plus the credentials attached with `--credential <name>` (repeatable; `update --no-credentials` detaches all). Runs never request more.
+- You can attach only credentials a person gave this conversation (`nori-sessions credentials list` shows them as held). A person can see what they could attach with `triggers attachable-credentials`.
+- Attaching anyone's personal credential needs the personal shape above: cron or reminder, standalone, no thread, not `--run-as-admin true`, not in a project. Only its author can test-fire it, and while it carries another person's credential, others can only pause it or change what is attached.
+- If an attached credential is gone when the automation fires (owner left, lost access, deleted it), the run fails at once with a message naming it.
+
 ## Where
 
 - **Standalone** (no `--slack-channel-id`): for background jobs. Nothing is posted unless the prompt names an exact destination (`#eng-updates`), and the bot must be in that channel (no DMs). Required for `--run-as-admin true` and `--personal true`.
