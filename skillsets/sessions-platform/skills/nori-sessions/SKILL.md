@@ -38,7 +38,7 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
   - `help-request` - send Nori's team a help request; see the `reporting-to-nori` skill
   - `users`, `invites`, `admin-escalation` - org members, invite links, and `!admin` requests (admin)
   - `preferences`, `push`, `views` - the signed-in person's dashboard preferences, browser push subscriptions, and custom web UI views
-  - `assets` - durable, shareable web pages and tools: `create`, `publish <id> --dir <dist> --note`, `versions`, `rollback --to`, `share --user|--org-role`, `unshare`, `transfer`, `delete|restore`; only where the org's `assets` feature is on (otherwise every command is `not_found`)
+  - `assets` - durable, shareable web pages and tools: `create`, `publish <id> --dir <dist> --note`, `versions`, `rollback --to`, `share --user|--org-role`, `unshare`, `transfer`, `delete|restore`, `store get|list|put|update|cas|delete <id> <collection> [<key>]` (the asset's data; `cas --expected-v 0` claims exactly once), `usage` (org admins); only where the org's `assets` feature is on (otherwise every command is `not_found`)
   - `factory` - the org's saved Factory assessment of how it ships software (`factory get`); `save` is reserved for the factory-discovery automation run
   - `suggestions` - the personal suggestions shown under the web composer; `save` is reserved for each person's own suggestions research run
   - `one-connect` - personal and shared app connections through One, where the org has it (`status`, `authorize`, `disconnect`, `catalog`; `share-apps` needs admin)
