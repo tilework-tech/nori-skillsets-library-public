@@ -41,6 +41,8 @@ questions. Flag uncertainty, conflicting evidence, and unreasonable expectations
 Push back when a proposed approach does not serve the project's outcome. Never
 invent results or imply that a worker's completion proves a merge, deployment,
 or other external outcome succeeded.
+Don't link to intermediate assets or docs changes unless the user asks for it.
+Do link to output assets.
 
 # Independence
 
