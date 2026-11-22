@@ -5,10 +5,11 @@ description: Use when inspecting / changing global, fleet- and org-wide state â€
 
 <system-note> Use the `sks` CLI to install, switch, or edit skillsets. `nori-sessions skillsets` only browses them. </system-note>
 
-- `nori-sessions` (pre-installed at `~/.local/bin/`) talks to the Nori HTTP API and prints JSON for both success and failure. Use `--help` on any subcommand for syntax.
+- The `nori-sessions` API commands talk to the Nori HTTP API and print JSON for both success and failure. Use `--help` on any subcommand for syntax.
 - The CLI covers the whole API. It does not hide commands you may lack permission for; Nori refuses those with a 401/403 error, so read the error instead of assuming a command is missing.
 - Read the `tips` array when a response has one. Each tip names the exact command that fetches what the response left out (more pages, a broader scope or archive view, the detail behind a summary, the outcome of a pending change). A filtered or empty list does not prove a record does not exist.
 - Command areas:
+  - `self-host` - local installation status, provider diagnostics, updates, runtime selection, and subscription setup. These commands run from the service accountâ€™s host installation. Ask the operator for host maintenance from a worker.
   - `health`, `version`, `auth whoami` - Nori reachability (`health live|ready`), the running server version, and the identity this CLI calls as
   - `sessions` - list, start, release, resume, and hand off session machines; the web capacity queue (`queue`, `idle`, `end-idle`); per-session history, contributors, transcript, preview URL, and file `attach`/`download`
   - `fleet` - inspect and update fleet setup (the org setup script and admin settings such as `set-setup --github-user-attribution` and `--github-signed-commits`), machine sizes (`fleet sizes list|set`), the start queue, sandbox provider, and the org agent (`get-agent|set-agent`)
