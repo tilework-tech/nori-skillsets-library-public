@@ -1,6 +1,6 @@
 ---
 name: fixing-unspecified-platform-problems
-description: Use when asked to find whatever is hurting this organization's Nori users without a specific problem named - a nightly platform health run, or "what's broken lately?" - by reading the org's own service logs for the past 24 hours, picking at most one painful failure category, tracing its cause through chats, setup scripts, CI, and repos, and proposing one evidence-backed fix to the org's platform owners.
+description: Use when asked to find whatever is hurting this organization's Nori users without a specific problem named - a nightly platform health run, or "what's broken lately?" - by reading the org's own service logs for the past 24 hours, picking at most one painful failure category, tracing its cause through chats, setup scripts, integrations, CI, and repos, and proposing one evidence-backed fix for an admin to apply, or reporting it to Nori when the cause is inside Nori.
 ---
 
 # Fixing Unspecified Platform Problems
@@ -9,10 +9,13 @@ Nobody has told you what is wrong. Find the single problem most likely to be
 hurting this organization's users, prove what causes it, and propose one fix.
 Finding nothing painful and actionable is a good outcome. Never invent work.
 
+You debug this organization's Nori instance, not any one repository. You
+never change anything: an admin applies the fix you propose.
+
 When the request that started you ends with this organization's settings
-(where to post, which repositories, whether you may open pull requests),
-those settings override anything below. When no one is watching the run, your
-final reply is the only thing anyone sees.
+(where to post), those settings override anything below. When no one is
+watching the run, your final reply is the only thing anyone sees, and it is
+posted only when it is a confident, supported finding (section 5).
 
 <required>
 Add these to your TODO list:
@@ -22,8 +25,8 @@ Add these to your TODO list:
 3. Stop with "no actionable finding" if no painful category emerges (section 5).
 4. Investigate the one category: impact, then cause (section 3).
 5. Write a fix proposal only if the cause is supported (section 4).
-6. Check for an earlier proposal of the same problem (section 4).
-7. Finish with exactly one of the four outcomes (section 5).
+6. Check for an earlier report of the same problem (section 4).
+7. Finish with exactly one of the five outcomes (section 5).
 </required>
 
 ## 1. Freeze the window and run the first two queries
@@ -157,50 +160,50 @@ failure to it: a log line, a transcript turn, a script line, a CI log, or a
 commit. Work from timing alone is a hypothesis, not a cause.
 
 If the cause sits inside Nori's own platform, such as Nori's service code or
-its hosting, you cannot see it from here. Do not claim you found it.
-Write the result as an escalation to Nori (section 4) with the impact and
-the log evidence you do have.
+its hosting, you cannot see it from here. Do not claim you found its exact
+line. Report it to Nori (section 4) with the impact and the log evidence you
+do have.
 
 ## 4. Propose one fix
 
 Write a proposal only when the cause is supported. Choose the smallest fix
-that removes it:
+that removes it. Never apply any of them yourself:
 
 - **Setup script change.** Write the exact diff against the current script
-  (section 3). Never apply it yourself. Changing the setup
-  script changes every future session, so a platform owner must approve it.
-- **Repository fix or CI change.** Make it in a pull request only if the
-  settings allow pull requests. Otherwise describe the exact change and ask.
-  Branch from the default branch as `platform-fix/<short-topic>`. Open the
-  pull request without a draft flag and without reviewers. Never merge, and
-  never push to a default branch.
-- **Integration or configuration change.** Name the exact setting and value.
-  Never change it yourself.
-- **Nori platform problem.** Write an escalation to Nori with the impact, the
-  evidence, and what you could not see. Ask the platform owners to forward it
-  to Nori.
+  (section 3). Changing the setup script changes every future session, so an
+  admin must apply it.
+- **Integration or configuration change.** Name the exact setting and value,
+  and where an admin changes it.
+- **Repository or CI change.** Describe the exact change and the file it
+  belongs in, for an admin to make or hand to someone. Never open a pull
+  request.
+- **Manual step.** When nothing can be changed in advance (a revoked token, an
+  expired login, a full disk on a machine), say exactly what an admin must do.
+- **Nori platform problem.** The cause is inside Nori itself, needs a fix
+  from Nori, and nothing in this organization's setup works around it. Report
+  it to Nori with `nori-sessions help-request --kind bug --title "<short
+  title>" --text "<impact, evidence, what you could not see>"`, following the
+  `reporting-to-nori` skill. Leave out customer message text and personal
+  data. If the command answers `help_requests_disabled` or
+  `help_requests_unsupported`, the organization has not allowed reports to
+  Nori: put the escalation in your reply instead and ask an admin to forward
+  it to Nori.
 
-Before you deliver, check whether this problem was already reported:
+Before you deliver, check whether this problem was already reported. Read
+recent history in the channel you will post to, if you can
+(`nori-slack conversations.history --channel <channel id> --limit 50`).
 
-- Read recent history in the channel you will post to, if you can
-  (`nori-slack conversations.history --channel <channel id> --limit 50`).
-- Look for open pull requests on `platform-fix/` branches and for matching
-  open issues:
-  `gh pr list --repo <owner/name> --state open --json number,headRefName,url --jq '.[] | select(.headRefName | startswith("platform-fix/"))'`.
-
-This check applies to every outcome in section 5, not only proposals. If you
-already reported the same problem, the same open question, or the same access
-failure in the last four weeks and nobody acted, do not post it again. Add a
-reply in that thread only if the impact has clearly grown. Otherwise treat
-this run as having no new finding. If your own `platform-fix/` pull request
-for it is still open, do not open another.
+If you already reported the same problem in the last four weeks and nobody
+acted, do not post it or report it to Nori again. Add a reply in that thread
+only if the impact has clearly grown. Otherwise treat this run as having no
+new finding.
 
 Write the proposal in this order and keep it short:
 
 > **Impact** → **supported cause** → **proposed fix** → **how to validate it** → **decision needed**
 
 <good-example>
-Slack rejected 1,240 "thinking" status updates in the last 24h with `must be less than 51 characters [loading_messages]`, so users see no progress indicator while the agent works. The over-long loading messages are not in our setup script, org skillset, or repos, so this looks like a Nori platform bug. Fix needed from Nori: keep each loading message under 51 characters. Validate: `event:log.raw "loading_messages" | stats count()` should drop to 0. Can you forward this to Nori?
+Slack rejected 1,240 "thinking" status updates in the last 24h with `must be less than 51 characters [loading_messages]`, so users see no progress indicator while the agent works. The over-long loading messages are not in our setup script, org skillset, or repos, so this is a Nori platform bug, and I have reported it to Nori. Nothing for you to change; once Nori ships the fix, `event:log.raw "loading_messages" | stats count()` should drop to 0.
 </good-example>
 
 <bad-example>
@@ -208,33 +211,39 @@ Slack rejected 1,240 "thinking" status updates in the last 24h with `must be les
 I ran 14 queries. Overall the platform looks healthy! Errors: 3,412. Warnings: 9,881. Top events: ...
 </bad-example>
 
-Someone may answer "yes" in the thread your reply starts. If so, make the
-change the settings allow, or the pull request, and reply with the result.
+Someone may reply in the thread your reply starts. Treat it as a conversation
+with that person: answer questions, and when an admin asks you to apply the
+fix, follow the confirmation rules you would for any such request.
 
 Deliver it where the settings say. In a conversation with a person, your
-reply is the proposal. Contact only destinations the settings or the person
-named. Finding an email address or a channel does not authorize you to use
-it.
+reply is the proposal. When the settings say no channel is chosen, nobody
+sees your reply; still report a Nori platform problem to Nori.
 
-## 5. Finish with one of four outcomes
+## 5. Finish with one of five outcomes
 
-| Outcome | When | Reply |
-|---------|------|-------|
-| No actionable finding | Neither query returned `ok:false` or `tips`, and nothing met the bar in section 2 | Unattended: only `<no-response/>`. With a person: one sentence on what you checked |
-| Investigation incomplete | A credible category emerged, but you could not support a cause | What hurts, the evidence so far, the open question, and what access or data would settle it |
-| Fix proposed | Cause supported (section 4) | The proposal, or the pull request link |
-| Evidence access failed | A query or required read failed, or results stayed cut off | Which command failed and its error. Never report this as "no finding" |
+An unattended run posts only a confident, supported finding. Admins see
+nothing else from you, so every post must be worth their time.
+
+| Outcome | When | Unattended reply | Reply to a person |
+|---------|------|------------------|-------------------|
+| No actionable finding | Neither query returned `ok:false` or `tips`, and nothing met the bar in section 2 | Only `<no-response/>` | One sentence on what you checked |
+| Investigation incomplete | A credible category emerged, but you could not support a cause | Only `<no-response/>` | What hurts, the evidence so far, the open question, and what access or data would settle it |
+| Fix proposed | Cause supported (section 4) | The proposal | The proposal |
+| Reported to Nori | Cause supported and inside Nori (section 4) | One or two sentences: the impact, that Nori has it, and anything admins can do meanwhile | The same |
+| Evidence access failed | A query or required read failed, or results stayed cut off | Report a failing `nori-sessions` command to Nori as in section 4, then only `<no-response/>` | Which command failed and its error. Never report this as "no finding" |
 
 An unattended run whose only result was already reported (section 4) also
 ends with `<no-response/>`.
 
 ## Safety
 
-- Read-only by default. Change nothing outside a `platform-fix/` pull
-  request that the settings allow.
-- Never edit the setup script, integrations, environment variables,
-  automations, or the org skillset. Propose those changes.
-- At most one proposal and one pull request per run.
+- Read-only. Never open a pull request, push a branch, or edit the setup
+  script, integrations, environment variables, automations, or the org
+  skillset. Propose those changes.
+- Contact no one except the destination the settings name and Nori through
+  `nori-sessions help-request`. Finding an email address or a channel does
+  not authorize you to use it.
+- At most one proposal and one report to Nori per run.
 - Never put secrets, tokens, customer message text, or personal data into a
-  proposal, commit, or issue. Quote log text only after collapsing IDs, and
+  proposal or report. Quote log text only after collapsing IDs, and
   quote only what proves the point.
