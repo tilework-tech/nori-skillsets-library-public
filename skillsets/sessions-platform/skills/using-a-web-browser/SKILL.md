@@ -6,7 +6,7 @@ description: Use whenever a task needs a real web browser - logging in to a webs
 <required>
 *CRITICAL* Add the following steps to your Todo list using TodoWrite, then work them in order:
 
-- Run `nori-browser`. It starts the session's headed Chrome, or reuses it if it is already running, and prints the browser control endpoint and the live view link.
+- Run `nori-browser`. It starts the session's headed Chrome, or reuses it if it is already running, and prints connection instructions and the live view link.
   - If `nori-browser` is missing or reports that this machine has no built-in browser, tell the user instead of installing one.
 - Drive that browser with Playwright over CDP (see below). Never launch your own browser, never pass `headless`, and never install a virtual display or VNC software -- the display and the live view already exist.
 - In your first reply after you start browsing, give the user the live view link so they can follow along or take over. Resolve it to the actual URL first.
@@ -32,7 +32,7 @@ mkdir -p ~/.nori/browser-scripts && cd ~/.nori/browser-scripts
 // ~/.nori/browser-scripts/task.mjs
 import { chromium } from 'playwright-core';
 
-const browser = await chromium.connectOverCDP('http://127.0.0.1:9222');
+const browser = await chromium.connectOverCDP(process.env.NORI_BROWSER_CDP_URL ?? 'http://127.0.0.1:9222');
 // The default context is the persistent profile the user sees in the live
 // view; new contexts would not share its sign-ins.
 const context = browser.contexts()[0];
@@ -45,6 +45,6 @@ await page.screenshot({ path: 'page.png' });
 await browser.close();
 ```
 
-- Use the endpoint `nori-browser` printed if it differs from the one above.
+- In a self-hosted managed session, the local control URL in `NORI_BROWSER_CDP_URL` is private. Share the live view link printed by `nori-browser`.
 - Every page and tab is visible in the live view, so keep work in one tab when the user is watching.
 - `page.pdf()` works on this browser too.
