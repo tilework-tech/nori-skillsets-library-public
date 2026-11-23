@@ -22,6 +22,19 @@ CRITICAL Add the following steps to your Todo list using TodoWrite:
   finishes the connection and adds it to the org integrations — you run nothing
   else.
 
+- Handle a refused registration. If `connect` fails because the server's
+  authorization server refused client registration (for example a Keycloak
+  "Trusted Hosts" policy), Nori has already tried a Client ID Metadata
+  Document where the server supports one. Relay the error's two options to the
+  user for the server's administrator: trust the Nori host shown in the error,
+  or issue a pre-registered OAuth client for the redirect URI shown in the
+  error (`mcp probe` also returns it as redirectUri). When `connect` returns a
+  notice with its authUrl, Nori fell back to a Client ID Metadata Document;
+  if the sign-in page then rejects the client, relay that notice instead. With a pre-registered
+  client, rerun `connect` with `--client-id` (and `--client-secret` for a
+  confidential client), obtaining any secret with the
+  `receiving-secrets-from-chat` skill. Do not contact the provider yourself.
+
 - Handle the localhost fallback. If `connect` returns needsLocalhost instead of
   an authUrl, the server requires a local redirect. Give the user the returned
   scriptUrl to run on their own machine, then poll
