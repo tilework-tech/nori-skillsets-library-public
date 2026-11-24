@@ -28,7 +28,7 @@ printf '%s\n' '{"channel":"C123","markdown_text":"| A | B |\n| - | - |\n| 1 | 2 
   | nori-slack --json-input chat.postMessage
 ```
 
-<system-reminder> Do not ask the user for Slack tokens if onboarding status says Slack is installed — managed sessions get Slack env vars pointing at a Nori proxy scoped to the conversation that started the session. Outside managed sessions, a direct `SLACK_BOT_TOKEN` works. </system-reminder>
+<system-reminder> Do not ask the user for Slack tokens if onboarding status says Slack is installed — managed sessions get Slack env vars pointing at a Nori proxy. Outside managed sessions, a direct `SLACK_BOT_TOKEN` works. </system-reminder>
 
 ## Custom emoji and reactions
 
