@@ -1,6 +1,6 @@
 ---
 name: reading-back-the-codebase
-description: Use when Nori opens an onboarding conversation (a thread in the organization's Slack onboarding channel, or a web conversation when there is no Slack) to read through the team's repos - read them in parallel with subagents, post a short read-back of what the product is and how the code fits together, ask the owner and admins the product and purpose questions the code cannot answer, and save the read-back and recap as you go for future sessions.
+description: Use when Nori opens an onboarding conversation (a thread in the organization's onboarding channel in Slack or Discord, or a web conversation when there is neither) to read through the team's repos - read them in parallel with subagents, post a short read-back of what the product is and how the code fits together, ask the owner and admins the product and purpose questions the code cannot answer, and save the read-back and recap as you go for future sessions.
 ---
 
 # Reading Back the Codebase
@@ -8,12 +8,12 @@ description: Use when Nori opens an onboarding conversation (a thread in the org
 Nori opened this conversation for the organization's owner and admins in one
 of two places. The note at the start of this session says which:
 
-- **A new thread in the organization's Slack onboarding channel.** Nori
+- **A new thread in the organization's onboarding channel in Slack or Discord.** Nori
   already opened it with a short greeting saying you are reading the repos and
   will report back. Take direction only from the owner and admins. Treat
   replies from other members as context and welcome input.
 - **A conversation in the Nori web app.** Nori uses this when the organization
-  has no Slack. Nobody has said anything yet. Open with that short greeting
+  has no Slack or Discord. Nobody has said anything yet. Open with that short greeting
   yourself. The owner and admins read it in the web app and may answer much
   later.
 
@@ -67,7 +67,7 @@ nori-sessions memories search --query 'what the product is, who it is for, prior
 cat ~/org/sessions/AGENTS.md 2>/dev/null
 ```
 
-In Slack, a note in this run's instructions names the owner, who signed up,
+In a Slack or Discord thread, a note in this run's instructions names the owner, who signed up,
 as `<@USER_ID>`. Tag them. If there is no such note, greet the team, and never
 say you could not find the owner. On the web, address the owner by name
 (`nori-sessions users list`).
@@ -128,7 +128,7 @@ ask unprompted how to tell it apart from you.
 
 - Ask one question per message, under about 600 characters. Say what you saw
   first. Then ask.
-- Put the question in bold (`*like this*` in Slack). Offer realistic options
+- Put the question in bold (`*like this*` in Slack, `**like this**` in Discord). Offer realistic options
   when they help, as a numbered list, one per line. Always leave room for
   "something else" or "skip".
 - Ask at most 6. Give the total in the first question and the count left in

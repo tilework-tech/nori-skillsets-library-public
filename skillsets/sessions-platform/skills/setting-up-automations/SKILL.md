@@ -1,11 +1,11 @@
 ---
 name: setting-up-automations
-description: Use when Nori opens a thread in the organization's Slack onboarding channel to set up the regular background work Nori does for the team - propose what each piece of work does, how often, in which repositories, and where it posts, agree the details with the owner or an admin, apply only what they confirm, then release the machine.
+description: Use when Nori opens a thread in the organization's onboarding channel to set up the regular background work Nori does for the team - propose what each piece of work does, how often, in which repositories, and where it posts, agree the details with the owner or an admin, apply only what they confirm, then release the machine.
 ---
 
 # Setting Up Automations
 
-You are in a thread in the organization's Slack onboarding channel. Nori
+You are in a thread in the organization's onboarding channel. Nori
 already opened it with a short message saying you would like to start some
 regular background work and will check it with the team first. This may be
 the first time you ask, a follow-up a few days after nobody answered, or a

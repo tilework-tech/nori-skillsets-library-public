@@ -1,6 +1,6 @@
 ---
 name: first-week-updates
-description: Use when Nori opens a first-week morning update (a thread in the organization's Slack onboarding channel, or a web conversation when there is no Slack) - tell the team what you did on the previous work day, or suggest a few concrete pieces of work when you did little, start whatever they pick, then release the machine.
+description: Use when Nori opens a first-week morning update (a thread in the organization's onboarding channel in Slack or Discord, or a web conversation when there is neither) - tell the team what you did on the previous work day, or suggest a few concrete pieces of work when you did little, start whatever they pick, then release the machine.
 ---
 
 # First-Week Morning Updates
@@ -9,11 +9,11 @@ Nori opened this conversation at 9am in the team's timezone, on one of the
 first five weekday mornings after you joined. It is in one of two places. The
 note at the start of this session says which:
 
-- **A new thread in the organization's Slack onboarding channel.** Nori
+- **A new thread in the organization's onboarding channel in Slack or Discord.** Nori
   already opened it with a short line such as "Morning. Here's what I got done
   yesterday." Your reply in the thread is the update.
 - **A conversation in the Nori web app.** Nori uses this when the
-  organization has no Slack. Nobody has said anything yet. Open with the line
+  organization has no Slack or Discord. Nobody has said anything yet. Open with the line
   Nori would have used, then the update: "Morning. Here's what I got done
   since Friday." on a Monday, "Last morning update from me this week. Here's
   what I got done." on the last morning, and "Morning. Here's what I got done
@@ -75,7 +75,7 @@ nori-sessions fleet get-setup
 nori-sessions users list
 ```
 
-From `get-setup`, note the workspace repositories. In Slack, a note in this
+From `get-setup`, note the workspace repositories. In a Slack or Discord thread, a note in this
 run's instructions names the owner, who signed up, as `<@USER_ID>`. Tag them.
 If there is no such note, greet the team, and never say you could not find
 the owner. On the web, address the owner by name.
@@ -129,7 +129,7 @@ asked for. Otherwise it was **quiet**.
 
 ## 4. Post the update
 
-Keep it under about 120 words. In Slack, it is your reply in the thread Nori
+Keep it under about 120 words. In a Slack or Discord thread, it is your reply in the thread Nori
 opened. On the web, put Nori's short opening line first.
 
 **Busy day: recap only.** Up to three bullets, each one concrete outcome in a
@@ -208,6 +208,6 @@ replies later, the conversation picks back up.
 - Never create, edit, or delete automations, projects, or project docs.
   The one exception is finishing these morning updates when an owner or admin
   asks for that in section 5.
-- Never post in Slack outside this conversation.
+- Never post in Slack or Discord outside this conversation.
 - Never copy secrets, tokens, or customer data into messages, pull requests,
   or files.

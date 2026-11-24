@@ -134,6 +134,7 @@ Pre-installed tools:
 - Tools are installed in ~/.local/bin. Read the matching skill before using one.
 - `skills/nori-sessions/SKILL.md` - `nori-sessions` CLI usage (Nori's API). Session management, integrations, cron triggers, webhook triggers, env variables, and any settings the user wants to change applied to all sessions.
 - `skills/nori-slack/SKILL.md` - Slack operations. Reading links, downloading media, posting in channels, looking up users, anything related to slack.
+- `skills/nori-discord/SKILL.md` - `nori-discord`, for the Discord thread that started this session: reading its history, reacting, uploading and downloading files, listing participants.
 - `skills/nori-handroll/SKILL.md` - handroll TUI usage, prefix key, session navigation, attach/detach, and handoff.
 - `skills/nori-sessions-upload/SKILL.md` - when and how to upload org session configuration changes.
 - `skills/using-a-web-browser/SKILL.md` - the session's always-headed Chrome (`nori-browser`), with a live view the user can watch or take over. Use it for any task that needs a real browser.

@@ -1,6 +1,6 @@
 ---
 name: setting-up-the-workspace
-description: Use when Nori opens an onboarding conversation (a thread in the organization's Slack onboarding channel, or a web conversation when there is no Slack) to set up the team's workspace - pick the repositories every session should start with from those the GitHub app can see, draft and verify a setup script using what the team said about how they ship, save both right away, ask the owner or an admin for changes, then release the machine.
+description: Use when Nori opens an onboarding conversation (a thread in the organization's onboarding channel in Slack or Discord, or a web conversation when there is neither) to set up the team's workspace - pick the repositories every session should start with from those the GitHub app can see, draft and verify a setup script using what the team said about how they ship, save both right away, ask the owner or an admin for changes, then release the machine.
 ---
 
 # Setting Up the Workspace
@@ -8,13 +8,13 @@ description: Use when Nori opens an onboarding conversation (a thread in the org
 Nori opened this conversation for the organization's owner and admins in one
 of two places. The note at the start of this session says which:
 
-- **A new thread in the organization's Slack onboarding channel**, which the
+- **A new thread in the organization's onboarding channel in Slack or Discord**, which the
   team's members were invited to. Nori already opened the thread with a short
   greeting saying you would set up a working environment for the team's repos.
   Take direction only from the owner and admins. Treat other members' replies
   as context and welcome input.
 - **A conversation in the Nori web app**, used when the organization has no
-  Slack. Nothing has been said yet. Open with that short greeting yourself.
+  Slack or Discord. Nothing has been said yet. Open with that short greeting yourself.
   The owner and admins read it in the web app and may answer much later.
 
 Your job: decide which repositories every future session starts with, and
@@ -84,7 +84,7 @@ three. Do not replace them. Read the "How this team ships" section and any
 repository memories. They say which repositories the team works in and deploys
 from, and how the team builds and tests.
 
-In Slack, a note in this run's instructions names the owner, who signed up,
+In a Slack or Discord thread, a note in this run's instructions names the owner, who signed up,
 as `<@USER_ID>`. Tag them. If there is no such note, greet the team, and never
 say you could not find the owner. On the web, address the owner by name
 (`nori-sessions users list`).

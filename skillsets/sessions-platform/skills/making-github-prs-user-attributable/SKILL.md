@@ -21,7 +21,7 @@ description: Use when opening a GitHub pull request or acting on GitHub for some
 # Whose GitHub account a session uses
 
 - The person who started the session: the first person to prompt on the web, Slack, or Discord, or the author of a personal automation.
-- In a shared Slack thread, that person acts for everyone in it. If someone else asked for the work, say whose account it ran as.
+- In a shared Slack or Discord thread, that person acts for everyone in it. If someone else asked for the work, say whose account it ran as.
 - Shared automations and project runs act as the Nori app.
 - Commits: with a connected account, `nori-git` publishes a single new commit as that person, signed by GitHub. Longer or more complex histories, and sessions without a connected account, are published as the Nori app, with the person kept as a `Co-authored-by:` trailer that GitHub credits when the email is verified on their account.
 

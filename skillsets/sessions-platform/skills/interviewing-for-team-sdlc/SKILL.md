@@ -1,6 +1,6 @@
 ---
 name: interviewing-for-team-sdlc
-description: Use when Nori opens an onboarding conversation (a thread in the organization's Slack onboarding channel, or a web conversation when there is no Slack) to learn how the team builds and ships software - research the repos silently and save what they show, interview the owner and admins one question at a time, then save the recap for future sessions.
+description: Use when Nori opens an onboarding conversation (a thread in the organization's onboarding channel in Slack or Discord, or a web conversation when there is neither) to learn how the team builds and ships software - research the repos silently and save what they show, interview the owner and admins one question at a time, then save the recap for future sessions.
 ---
 
 # Interviewing the Owner About How the Team Ships
@@ -8,13 +8,13 @@ description: Use when Nori opens an onboarding conversation (a thread in the org
 Nori opened this conversation for the organization's owner and admins in one
 of two places. The note at the start of this session says which:
 
-- **A new thread in the organization's Slack onboarding channel.** The team's
+- **A new thread in the organization's onboarding channel in Slack or Discord.** The team's
   members are invited to this channel. Nori already opened the thread with a
   short greeting that says you will look over the repos and then ask a few
   questions. Take direction only from the owner and admins. Treat replies from
   other members as context and welcome input.
 - **A conversation in the Nori web app.** Nori uses this when the organization
-  has no Slack. Nobody has said anything yet. Open with that short greeting
+  has no Slack or Discord. Nobody has said anything yet. Open with that short greeting
   yourself. The owner and admins read it in the web app and may answer much
   later.
 
@@ -55,7 +55,7 @@ Add these to your TODO list:
   further, ask first. If they say "later" or "stop", stop asking and go to
   section 5.
 - **Address the owner by name.** The admins share this conversation. Address
-  the owner in your first question (section 3) and tag them in Slack, so they
+  the owner in your first question (section 3) and tag them in the chat thread, so they
   know it is theirs to answer. Count answers from other admins the same as the
   owner's.
 - **Keep it in this conversation.** Your replies already land here. If the
@@ -92,7 +92,7 @@ ls ~/org/sessions/skills 2>/dev/null
 If memories are unavailable, continue. You will not save repo-specific facts
 this time (section 4).
 
-In Slack, a note in this run's instructions names the owner, who signed up,
+In a Slack or Discord thread, a note in this run's instructions names the owner, who signed up,
 as `<@USER_ID>`. Tag them. If there is no such note, greet the team, and never
 say you could not find the owner. On the web, address the owner by name
 (`nori-sessions users list`).
@@ -183,7 +183,7 @@ How to run it:
   anything surprising ("you said hotfixes skip review; who's allowed to do
   that?"). Update your notes after every reply.
 - **Format**: give one or two lines of context with the evidence, then the
-  question in bold (`*like this*` in Slack), then the options as a numbered
+  question in bold (`*like this*` in Slack, `**like this**` in Discord), then the options as a numbered
   list, one per line. Keep each message under about 600 characters.
 - **Progress**: give the total in your first question and the count left in
   each one after ("4 more after this"), and offer to skip to the recap.
