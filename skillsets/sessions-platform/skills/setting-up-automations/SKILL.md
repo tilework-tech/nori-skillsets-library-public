@@ -51,7 +51,7 @@ nori-sessions users list
 
 From the first command, note each piece of Nori's regular work: its key,
 description, schedule (UTC unless a timezone is set), whether it works in
-repositories (`repos`), and whether it posts to Slack (`postsToSlack`). From
+repositories (`repos`), and whether it posts to a chat channel (`postsToChat`, also shown as `postsToSlack`). From
 `get-setup`, note the workspace repositories. From `get-settings`, note
 `skillImprovementChannelId`. That is where the weekly review of how sessions
 went posts its suggestions for admins to approve.
@@ -141,7 +141,9 @@ In a later round, list only the work the request listed. Set
 `"enabled": false` for anything declined. Include `cronSchedule` (with
 `timezone`), `repos`, or `slackChannelId` only when they apply to that work
 and differ from what the list showed. Give `slackChannelId` only to work with
-`postsToSlack: true`.
+`postsToChat: true`. To post in a Discord channel instead, give
+`"destination": { "client": "discord", "channelId": "<id>" }` in place of
+`slackChannelId`.
 
 ```bash
 cat > /tmp/automations-setup.json <<'JSON'
