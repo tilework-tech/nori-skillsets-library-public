@@ -60,13 +60,23 @@ A note in this run's instructions names the owner, who signed up, as
 `<@USER_ID>`. Tag them. If there is no such note, greet the team, and never
 say you could not find the owner.
 
+If a note says nobody has told Nori the team's timezone, ask for it in your
+proposal. Once they answer, save it the way the note says before you apply
+anything, and use it for every schedule.
+
 Pick a channel to suggest for regular updates. Choose a long-lived engineering
 channel the team already uses. Never choose this onboarding channel or a
 general announcements channel.
 
+In Slack, list the channels:
+
 ```bash
 nori-slack conversations.list --types public_channel --exclude_archived true --limit 200
 ```
+
+In Discord, `nori-discord` cannot list channels. Ask the team which channel
+to use and to paste a link to it. The channel ID is the last number in the
+link.
 
 ## 2. Propose
 
@@ -125,7 +135,8 @@ on without an explicit yes from the owner or an admin.
   thread picks back up when someone replies. Nori checks back once a few days
   later.
 
-Before applying, make sure the app can post in the chosen channel:
+Before applying, make sure the app can post in the chosen channel. In
+Slack:
 
 ```bash
 nori-slack conversations.info --channel C0123456789
@@ -133,6 +144,10 @@ nori-slack conversations.info --channel C0123456789
 
 If `channel.is_member` is not true, ask someone to invite the app to that
 channel. Apply once they have.
+
+In Discord, applying checks that the bot can post in the channel and refuses
+with the reason if it cannot. Ask the team to fix it (usually the bot's
+permissions in that channel), then apply again.
 
 ## 4. Apply what was confirmed
 
@@ -164,7 +179,8 @@ JSON
 nori-sessions triggers managed setup --file /tmp/automations-setup.json
 ```
 
-If the team chose a channel for the weekly review, set it separately:
+If the team chose a Slack channel for the weekly review, set it separately
+(this setting takes a Slack channel ID only):
 
 ```bash
 nori-sessions fleet set-settings --skill-improvement-channel-id C0123456789
