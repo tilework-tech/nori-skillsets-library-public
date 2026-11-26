@@ -25,7 +25,7 @@ For a clear view request, add the following steps to your task tracker (TaskCrea
 
 # What a custom view is
 
-A custom view replaces the Nori web UI for one person. It is code, not configuration: one ES module that exports `mount(el, nori)` and returns a cleanup function. The web UI imports the module, mounts it into a shadow root, and gives it `nori`, the public view SDK. Views belong to a person, and a session publishes to the view of the person who started it.
+A custom view replaces the Nori web UI for one person. It is code, not configuration: one ES module that exports `mount(el, nori)` and returns a cleanup function. The web UI imports the module, mounts it into a shadow root, and gives it `nori`, the public view SDK. Views belong to a person, and a session publishes to the view of whoever asked for the current turn.
 
 # Steps
 
@@ -47,7 +47,7 @@ nori-sessions views list
 
 For a repair, keep the view's existing design and features and fix the failure found in step 1; do not replace it with a starter or redesign it. Read the previous source with `nori-sessions views source <name> --at <version> --out <file>` to recover the existing design when the current source is broken. Use `--at` for a view version; `--version` is the CLI version flag and is rejected by `views source`. Follow errors → pull the named view and current kit → fix → preview → republish, then explain what broke. Suggest rollback only if your fix fails. Before naming a rollback target, compare `nori-sessions views versions <name>` with `nori-sessions views errors <name>`: every error entry includes its version, and the target must have no recorded error. A null version cannot clear any candidate; bounded, best-effort history cannot prove an unreported version is healthy, so inspect and verify the target too. If no suitable version exists, offer the default view instead.
 
-- Publish only for the person who started this session. In a shared session, Slack thread, or channel, act only on a request from that person, and confirm with them before publishing.
+- Publish only for the person who asked for the current turn, into their own view. In a shared session, Slack thread, or channel, never change one person's view on another person's request, and confirm with the person before publishing.
 - For a clear view request, unless the shared-session rule above applies, build what was asked on the first try: a published view is easy to undo (the pill, `views rollback`), so do not stop to ask. Fill gaps with defaults and list them in step 7: their most recent conversations, a composer, a way to reach their other conversations (list, picker, or search), one column on a phone, Nori's light/dark theme unless they asked for one, and `handles` when the view shows conversations.
 - Keep what the user relies on today unless they asked to drop it: the conversation list, the composer, and search. Use `<nori-chat-header>` when the layout needs the default Settings control; its request opens the host's settings drawer without leaving the view. Keep the "← Nori" pill visible as the way back.
 - When the SDK and the `<nori-*>` elements cannot give exactly what they asked for, use Nori's API directly through `nori.fetch` (step 4) if that covers it; otherwise build the closest thing and say what is missing. Ask first only when nothing close is possible.

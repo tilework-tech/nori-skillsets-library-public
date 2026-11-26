@@ -98,7 +98,7 @@ The output includes the artifact's dashboard URL. Publishing from `<dir>/dist` a
 
 # 5. Link and share
 
-Give the person the dashboard URL from the publish output as a plain URL, resolved, never as `$NORI_SESSIONS_URL`. The artifact is private to the person you act for until it is shared. Share only when the person asks, with the role they name:
+Give the person the dashboard URL from the publish output as a plain URL, resolved, never as `$NORI_SESSIONS_URL`. You act for whoever asked for the current turn: they own what you create, and you can change an artifact for them only when they are its editor or owner. When you create an artifact, Nori shares it as editor with the org members in this conversation (everyone who has posted in or joined it); tell the person who can now see and edit it. Otherwise it is private to its owner. Share further only when the person asks, with the role they name:
 
 ```
 nori-sessions artifacts share <id> --user <email> --role viewer|commenter|editor
